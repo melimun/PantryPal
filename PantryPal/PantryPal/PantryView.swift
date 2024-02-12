@@ -46,10 +46,18 @@ struct PantryView: View {
 
 struct DetailView: View {
     var item: String
-    
+    @State private var name: String = ""
+    @State private var datePurchased: String = ""
+    @State private var dateSpoil: String = ""
     var body: some View {
-        Text("Detail view for \(item)")
-            .navigationBarTitle(item)
+        Form {
+              Section(header: Text("Grocery Information")) {
+                  TextField("Name", text: $name)
+                  TextField("Date Purchased", text: $datePurchased)
+                  TextField("Expected Spoil Date", text: $dateSpoil)
+              }
+          }
+        .navigationBarTitle(item)
     }
 }
 
