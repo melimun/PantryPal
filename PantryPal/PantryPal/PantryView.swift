@@ -34,6 +34,8 @@ struct PantryView: View {
             }
             
             NavigationView {
+                
+                RecipeView()
 
             }
             .tabItem {
