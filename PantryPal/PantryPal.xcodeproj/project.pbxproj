@@ -14,6 +14,8 @@
 		45AA70AA2B72CC5C0067E513 /* PantryPalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA70A92B72CC5C0067E513 /* PantryPalTests.swift */; };
 		45AA70B42B72CC5C0067E513 /* PantryPalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA70B32B72CC5C0067E513 /* PantryPalUITests.swift */; };
 		45AA70B62B72CC5C0067E513 /* PantryPalUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA70B52B72CC5C0067E513 /* PantryPalUITestsLaunchTests.swift */; };
+		4C06576A2B78647000F1E048 /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0657692B78647000F1E048 /* PantryView.swift */; };
+		4C06576C2B78696900F1E048 /* CroceryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C06576B2B78696900F1E048 /* CroceryItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		45AA70AF2B72CC5C0067E513 /* PantryPalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PantryPalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45AA70B32B72CC5C0067E513 /* PantryPalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryPalUITests.swift; sourceTree = "<group>"; };
 		45AA70B52B72CC5C0067E513 /* PantryPalUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryPalUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4C0657692B78647000F1E048 /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
+		4C06576B2B78696900F1E048 /* CroceryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CroceryItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,8 @@
 			children = (
 				45AA70982B72CC590067E513 /* PantryPalApp.swift */,
 				45AA709A2B72CC590067E513 /* ContentView.swift */,
+				4C0657692B78647000F1E048 /* PantryView.swift */,
+				4C06576B2B78696900F1E048 /* CroceryItem.swift */,
 				45AA709C2B72CC5B0067E513 /* Assets.xcassets */,
 				45AA709E2B72CC5B0067E513 /* Preview Content */,
 			);
@@ -257,7 +263,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C06576A2B78647000F1E048 /* PantryView.swift in Sources */,
 				45AA709B2B72CC590067E513 /* ContentView.swift in Sources */,
+				4C06576C2B78696900F1E048 /* CroceryItem.swift in Sources */,
 				45AA70992B72CC590067E513 /* PantryPalApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,6 +438,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -459,6 +468,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
