@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct PantryPalApp: App {
+    
+    let recipeManager = RecipeManager()
+
+    
     var body: some Scene {
         WindowGroup {
             PantryView()
+                .environmentObject(self.recipeManager)
         }
     }
 }

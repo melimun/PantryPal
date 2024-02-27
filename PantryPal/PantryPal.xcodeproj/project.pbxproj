@@ -17,6 +17,8 @@
 		45E03F382B8D25A800AF53A8 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F372B8D25A800AF53A8 /* RecipeView.swift */; };
 		45E03F3D2B8D269A00AF53A8 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F3C2B8D269A00AF53A8 /* Recipe.swift */; };
 		45E03F3F2B8D26A800AF53A8 /* RecipeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F3E2B8D26A800AF53A8 /* RecipeManager.swift */; };
+		45E03F432B8D3B8900AF53A8 /* RecipeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F422B8D3B8900AF53A8 /* RecipeDetails.swift */; };
+		45E03F452B8E8C3600AF53A8 /* RecipeFavourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F442B8E8C3600AF53A8 /* RecipeFavourites.swift */; };
 		4C06576A2B78647000F1E048 /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0657692B78647000F1E048 /* PantryView.swift */; };
 		4C06576C2B78696900F1E048 /* CroceryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C06576B2B78696900F1E048 /* CroceryItem.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +54,8 @@
 		45E03F372B8D25A800AF53A8 /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		45E03F3C2B8D269A00AF53A8 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		45E03F3E2B8D26A800AF53A8 /* RecipeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeManager.swift; sourceTree = "<group>"; };
+		45E03F422B8D3B8900AF53A8 /* RecipeDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetails.swift; sourceTree = "<group>"; };
+		45E03F442B8E8C3600AF53A8 /* RecipeFavourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFavourites.swift; sourceTree = "<group>"; };
 		4C0657692B78647000F1E048 /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
 		4C06576B2B78696900F1E048 /* CroceryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CroceryItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,6 +150,8 @@
 			isa = PBXGroup;
 			children = (
 				45E03F372B8D25A800AF53A8 /* RecipeView.swift */,
+				45E03F422B8D3B8900AF53A8 /* RecipeDetails.swift */,
+				45E03F442B8E8C3600AF53A8 /* RecipeFavourites.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -298,8 +304,10 @@
 			files = (
 				4C06576A2B78647000F1E048 /* PantryView.swift in Sources */,
 				45AA709B2B72CC590067E513 /* ContentView.swift in Sources */,
+				45E03F452B8E8C3600AF53A8 /* RecipeFavourites.swift in Sources */,
 				4C06576C2B78696900F1E048 /* CroceryItem.swift in Sources */,
 				45E03F3D2B8D269A00AF53A8 /* Recipe.swift in Sources */,
+				45E03F432B8D3B8900AF53A8 /* RecipeDetails.swift in Sources */,
 				45E03F3F2B8D26A800AF53A8 /* RecipeManager.swift in Sources */,
 				45AA70992B72CC590067E513 /* PantryPalApp.swift in Sources */,
 				45E03F382B8D25A800AF53A8 /* RecipeView.swift in Sources */,
