@@ -11,6 +11,8 @@ struct PantryView: View {
     @State private var selection = 0
     @State private var items = ["Item 1", "Item 2", "Item 3"]
     
+    @EnvironmentObject var recipeManager : RecipeManager
+    
     var body: some View {
         TabView(selection: $selection) {
             NavigationView {
@@ -34,6 +36,9 @@ struct PantryView: View {
             }
             
             NavigationView {
+                
+                RecipeView()
+                    .environmentObject(recipeManager)
 
             }
             .tabItem {
