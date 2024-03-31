@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Photos
 
 struct PantryView: View {
     @State private var selection = 0
@@ -18,14 +19,14 @@ struct PantryView: View {
             NavigationView {
                 List {
                     ForEach(items, id: \.self) { item in
-                        NavigationLink(destination: DetailView(item: item)) {
-                            Text(item)
+                        NavigationLink(destination: GroceryDetails(item: item, image: "apple.logo")) {
+                            ListItem(image: "apple.logo", name: item)
                         }
                     }
                 }
                 .navigationBarTitle("Pantry List")
                 .navigationBarItems(trailing:
-                    NavigationLink(destination: NewItemView()) {
+                    NavigationLink(destination: NewGroceryView()) {
                         Image(systemName: "plus")
                     }
                 )
@@ -49,26 +50,19 @@ struct PantryView: View {
     }
 }
 
-struct DetailView: View {
-    var item: String
-    @State private var name: String = ""
-    @State private var datePurchased: String = ""
-    @State private var dateSpoil: String = ""
+struct ListItem: View {
+    var image: String
+    var name: String
+    
     var body: some View {
-        Form {
-              Section(header: Text("Grocery Information")) {
-                  TextField("Name", text: $name)
-                  TextField("Date Purchased", text: $datePurchased)
-                  TextField("Expected Spoil Date", text: $dateSpoil)
-              }
-          }
-        .navigationBarTitle(item)
+        HStack {
+            Image(systemName: image)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 50, height: 50)
+                .cornerRadius(25)
+            Text(name)
+        }
     }
 }
 
-struct NewItemView: View {
-    var body: some View {
-        Text("New Item View")
-            .navigationBarTitle("New Item")
-    }
-}
