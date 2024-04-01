@@ -81,19 +81,17 @@ struct RecipeView: View {
                 }//HStack
             }//Section
             
-            if self.recipeManager.recipeList.isEmpty {
+            if self.recipeManager.recipeList.meals.isEmpty {
                 VStack{
                     HStack{
                         
-                        ProgressView()
-                            .controlSize(.large)
-                        Text("Loading...")
+                        Text("Sorry :(")
                             .font(.headline)
                             .bold()
                             .padding()
                         
                     }
-                    Text("Consulting our chefs")
+                    Text("We can't find any recipes that fit your criteria.")
                         .font(.caption)
                 }.background(.white)
                 
@@ -109,8 +107,8 @@ struct RecipeView: View {
                 
                 List {
                     
-                    ForEach(self.recipeManager.recipeList.indices, id: \.self) { recipeIndex in
-                        let recipe = self.recipeManager.recipeList[recipeIndex]
+                    ForEach(self.recipeManager.recipeList.meals.indices, id: \.self) { recipeIndex in
+                        let recipe = self.recipeManager.recipeList.meals[recipeIndex]
                         
                         NavigationLink(
                             destination: RecipeDetails()
@@ -118,13 +116,24 @@ struct RecipeView: View {
                             
                             HStack{
                                 
-                                AsyncImage(url: URL(string: "https://placehold.co/100x100/png"))
-                                
+                                AsyncImage(
+                                    url: URL(string:recipe.strMealThumb),
+                                                content: { image in
+                                                    image.resizable()
+                                                         .aspectRatio(contentMode: .fit)
+                                                         .frame(maxWidth: 300, maxHeight: 100)
+                                                         .cornerRadius(10)
+                                                },
+                                                placeholder: {
+                                                    ProgressView()
+                                                }
+                                            )
+                                    
                                 
                                 VStack {
                                     
                                     //Content of recipes
-                                    Text("Recipe Name").fontWeight(.bold).lineLimit(1)
+                                    Text("\(recipe.strMeal)").fontWeight(.bold).lineLimit(1)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                     
                                     Text("3/4 stars").font(.subheadline)
@@ -155,8 +164,7 @@ struct RecipeView: View {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 
-                self.recipeManager.getBooks()
-                
+                self.recipeManager.getRecipes()
             }
         }//onAppear
         .toolbar {
