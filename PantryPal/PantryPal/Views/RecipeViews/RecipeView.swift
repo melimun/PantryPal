@@ -1,4 +1,3 @@
-// Melissa Munoz / Eli - 991642239
 
 
 import SwiftUI
@@ -33,12 +32,10 @@ struct RecipeView: View {
     
     @EnvironmentObject var recipeManager: RecipeManager
     
-    
     @State private var selectedDiet: Diet = .Balanced
     @State private var selectedDining: DiningType = .Breakfast
     @State private var selectedCalories: Calories = .Under200
-    
-    
+        
     var body: some View {
         VStack {
             
@@ -107,11 +104,14 @@ struct RecipeView: View {
                 
                 List {
                     
-                    ForEach(self.recipeManager.recipeList.meals.indices, id: \.self) { recipeIndex in
+                    ForEach(self.recipeManager.recipeList.meals.indices, id: \.self){
+                        
+                        recipeIndex in
+                        
                         let recipe = self.recipeManager.recipeList.meals[recipeIndex]
                         
                         NavigationLink(
-                            destination: RecipeDetails()
+                            destination: RecipeDetails(recipeID: recipe.idMeal).environmentObject(self.recipeManager)
                         ) {
                             
                             HStack{
@@ -170,7 +170,8 @@ struct RecipeView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 
-                NavigationLink(destination: RecipeFavourites()){
+                NavigationLink(destination: RecipeFavourites()
+                    ){
                     Image(systemName: "heart.fill")
                         .foregroundColor(.red)
                 }
