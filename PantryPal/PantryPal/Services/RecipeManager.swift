@@ -1,201 +1,92 @@
-// Melissa Munoz / Eli - 991642239
-
 import Foundation
-import UIKit
 
-class RecipeManager : ObservableObject{
+class RecipeManager: ObservableObject {
     
-    @Published var recipeList = RecipeResponse()
-    @Published var recipe = RecipeResponse()
-    @Published var ingredientList = ["chicken"]
-
-    func byRandomRecipeURL() -> String{
-        
-        let baseURL = "www.themealdb.com/api/json/v2/9973533/randomselection.php"
-        
-        return baseURL
+    @Published var recipeList = RecipeResponse() //Get recipes that have those ingredients
+    @Published var filteredRecipeList = RecipeResponse() //Get recipes that fit the certain ID
+    @Published var recipeIDs = [String]() //string of IDs
+    
+    @Published var ingredientList = ["chicken"] //ingredientTest
+    
+    
+    func byIngredientsURL(specification: String) -> String {
+        let encodedIngredients = specification.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        return "https://www.themealdb.com/api/json/v2/9973533/filter.php?i=\(encodedIngredients)"
     }
     
-    func byIngredientsURL(specification:String) -> String{
-        
-        //This gets recipes by ingredients
-        let baseURL = "https://www.themealdb.com/api/json/v2/9973533/filter.php?i="+specification
-        
-        return baseURL
+    func byRecipeIDURL(id: String) -> String {
+        return "https://www.themealdb.com/api/json/v2/9973533/lookup.php?i=\(id)"
     }
     
-    func byRecipeIDURL(id:String) -> String{
-        
-        //This gets recipe details by ID
-        let baseURL = "https://www.themealdb.com/api/json/v1/1/lookup.php?i="+id
-        
-        return baseURL
-    }
-
-
-    //* gets recipes from ingredients *//
-    
-    func getRecipes(){
-        
-        print("GetRecipes() Fetching data from API called")
-                
-        guard let apiURL = URL(string: byIngredientsURL(specification: ingredientList.joined(separator: ","))) else{
+    func getRecipes() {
+        guard let apiURL = URL(string: byIngredientsURL(specification: ingredientList.joined(separator: ","))) else {
             return
         }
-        
-        print(#function, "apiURL = \(apiURL)\n")
-    
-        
-        let task = URLSession.shared.dataTask(with: apiURL){
-            
-            (data: Data?, response: URLResponse?, error: Error?) in
-            
-            if let err = error {
-                
-                print(#function, "Unable to connect to the web service :\(err)")
-                
-                return
-            }else{
-                
-                print(#function, "Connected to web service\n")
-                
-                if let httpResponse = response as? HTTPURLResponse{
-                    if (httpResponse.statusCode == 200){
-                        
-                        print("HTTP: 200 OK!\n")
-                        
-                        DispatchQueue.global().async {
-                            
-                            do{
-                                
-                                if (data != nil){
-                                    
-                                    if let jsonData = data{
-                                        let decoder = JSONDecoder()
-                                        
-                                        var decodedRecipe = try decoder.decode(RecipeResponse.self, from:jsonData)
-                                    
-                                        
-                                        dump(decodedRecipe)
-                                        
-                                        for recipeIndex in 0..<decodedRecipe.meals.count {
-                                            var recipe = decodedRecipe.meals[recipeIndex]
-                                            
-                                            print(#function, "\(recipe)\n")
-                                            
-                                            DispatchQueue.main.async{
-                                                self.recipeList = decodedRecipe
-                                            }//main-sync
-                                        }
-                                    }
-                                }else{
-                                    print(#function, "No JSON data available.")
-                                }//if..else
-                                
-                            }catch let error{
-                                
-                                print(#function, "Unable to decode data. Error: \(error)\n")
-                                
-                            }//do..catch
-                            
-                        }//dispatchQueue
-                        
-                        
-                    }else{
-                        print(#function, "Unable to receive response. httpResponse.statusCode : \(httpResponse.statusCode)\n")
-                    }//if-200
-                }else{
-                    print(#function, "Unable to obtain HTTPResponse\n")
-                }//if httpResponse not gotten
-                
-            }//if-else
-        }//task
-        task.resume()
-    }//getRecipes
 
+        URLSession.shared.dataTask(with: apiURL) { data, response, error in
+            guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                print("Error fetching recipes")
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let decodedRecipe = try decoder.decode(RecipeResponse.self, from: data)
+
+                DispatchQueue.main.async {
+                    self.recipeList = decodedRecipe
+                    self.recipeIDs = decodedRecipe.meals.map { $0.idMeal }
+                }
+            } catch {
+                print("Error decoding recipes: \(error)")
+            }
+        }.resume()
+    }
     
-    //* get recipe by ID  *//
+    func resetLists() {
+        recipeIDs.removeAll()
+        recipeList = RecipeResponse()
+        filteredRecipeList = RecipeResponse()
+    }
     
-    func getRecipeByID(recipeID : String){
+    func getRecipesById(completion: @escaping () -> Void) {
+        var filteredRecipeLists = RecipeResponse()
+        let dispatchGroup = DispatchGroup()
         
-        print("GetRecipeByID() Fetching data from API called")
+        for id in recipeIDs {
+            dispatchGroup.enter()
+            
+            guard let apiURL = URL(string: byRecipeIDURL(id: id)) else {
+                dispatchGroup.leave()
+                continue
+            }
+            
+            URLSession.shared.dataTask(with: apiURL) { data, response, error in
+                defer {
+                    dispatchGroup.leave()
+                }
                 
-        //convert string to URL type
-        guard let apiURL = URL(string: byRecipeIDURL(id: recipeID)) else{
-            return
+                guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    print("Error fetching recipe with ID: \(id)")
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let decodedRecipe = try decoder.decode(RecipeResponse.self, from: data)
+                    
+                    DispatchQueue.main.async {
+                        filteredRecipeLists.meals.append(contentsOf: decodedRecipe.meals)
+                    }
+                } catch {
+                    print("Error decoding recipe with ID: \(id)")
+                }
+            }.resume()
         }
         
-        print(#function, "apiURL = \(apiURL)\n")
-    
-        
-        //initiate asynchronosu background task
-        let task = URLSession.shared.dataTask(with: apiURL){
-            
-            (data: Data?, response: URLResponse?, error: Error?) in
-            
-            if let err = error {
-                
-                print(#function, "Unable to connect to the web service :\(err)")
-                
-                return
-            }else{
-                
-                print(#function, "Connected to web service\n")
-                
-                if let httpResponse = response as? HTTPURLResponse{
-                    if (httpResponse.statusCode == 200){
-                        
-                        //if-ok
-                        print("HTTP: 200 OK!\n")
-                        
-                        DispatchQueue.global().async {
-                            
-                            do{
-                                
-                                if (data != nil){
-                                    
-                                    if let jsonData = data{
-                                        let decoder = JSONDecoder()
-                                        
-                                        var decodedRecipe = try decoder.decode(RecipeResponse.self, from:jsonData)
-                                    
-                                        
-                                        dump(decodedRecipe)
-                                        
-                                        for recipeIndex in 0..<decodedRecipe.meals.count {
-                                            var recipe = decodedRecipe.meals[recipeIndex]
-                                            
-                                            print(#function, "\(recipe)\n")
-                                             
-                                            DispatchQueue.main.async{
-                                                self.recipe = decodedRecipe
-                                            }//main-sync
-                                        }
-                                    }
-                                }else{
-                                    print(#function, "No JSON data available.")
-                                }//if..else
-                                
-                            }catch let error{
-                                
-                                print(#function, "Unable to decode data. Error: \(error)\n")
-                                
-                            }//do..catch
-                            
-                        }//dispatchQueue
-                        
-                        
-                    }else{
-                        print(#function, "Unable to receive response. httpResponse.statusCode : \(httpResponse.statusCode)\n")
-                    }//if-200
-                }else{
-                    print(#function, "Unable to obtain HTTPResponse\n")
-                }//if httpResponse not gotten
-                
-            }//if-else
-        }//task
-        task.resume()
-    }//getRecipes
-
-    
-}//recipeManager
+        dispatchGroup.notify(queue: .main) {
+            self.filteredRecipeList = filteredRecipeLists
+            completion()
+        }
+    }
+}
