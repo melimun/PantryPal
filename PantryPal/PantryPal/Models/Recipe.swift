@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 struct RecipeResponse: Codable {
-    let meals: [Recipe]
+    var meals: [Recipe]
     
     enum CodingKeys: String, CodingKey {
         case meals
@@ -153,10 +153,8 @@ struct Recipe: Codable, Identifiable {
         
         
         //ingredients
-        // Initialize ingredients array
         var ingredients: [FoodItem] = []
         
-        // Loop over ingredient keys and append non-empty values to the ingredients array
         for index in 1...20 {
             if let ingredientKey = CodingKeys(rawValue: "strIngredient\(index)"),
                let measurementKey = CodingKeys(rawValue: "strMeasure\(index)"),

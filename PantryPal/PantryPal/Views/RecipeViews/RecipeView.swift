@@ -28,6 +28,8 @@ enum Calories: String, CaseIterable, Identifiable {
 }
 
 
+import SwiftUI
+
 struct RecipeView: View {
     
     @EnvironmentObject var recipeManager: RecipeManager
@@ -35,119 +37,78 @@ struct RecipeView: View {
     @State private var selectedDiet: Diet = .Balanced
     @State private var selectedDining: DiningType = .Breakfast
     @State private var selectedCalories: Calories = .Under200
-        
+    @State private var isPageLoaded = false // Track if the page is loaded
+    
     var body: some View {
         VStack {
-            
             AsyncImage(url: URL(string: "https://placehold.co/600x150/png"))
-            Section{
-                
-                HStack{
-                    //Picker for Diet
-                    
+            Section {
+                HStack {
+                    // Picker for Diet
                     Picker("Diet", selection: $selectedDiet) {
-                        
-                        Text("Balanced").tag(Diet.Balanced)
-                        Text("Dairy-Free").tag(Diet.DairyFree)
-                        Text("Gluten-Free").tag(Diet.GlutenFree)
-                        Text("High-Fiber").tag(Diet.HighFiber)
-                        Text("High-Protein").tag(Diet.HighProtein)
-                        Text("Low Carb").tag(Diet.LowCarb)
-                        Text("Low Fat").tag(Diet.LowFat)
-                        Text("Low Sodium").tag(Diet.LowSodium)
-                        Text("Low Sugar").tag(Diet.LowSugar)
-                        Text("Vegan").tag(Diet.Vegan)
-                        Text("Vegetarian").tag(Diet.Vegetarian)
+                        ForEach(Diet.allCases, id: \.self) { diet in
+                            Text(diet.rawValue).tag(diet)
+                        }
                     }.pickerStyle(.menu)
                     
-                    //Picker for Dining Type
+                    // Picker for Dining Type
                     Picker("Dining Type", selection: $selectedDining) {
-                        Text("Breakfast").tag(DiningType.Breakfast)
-                        Text("Lunch").tag(DiningType.Lunch)
-                        Text("Dinner").tag(DiningType.Dinner)
-                        Text("Snack").tag(DiningType.Snack)
+                        ForEach(DiningType.allCases, id: \.self) { diningType in
+                            Text(diningType.rawValue).tag(diningType)
+                        }
                     }.pickerStyle(.menu)
                     
-                    //Picker for Calories
+                    // Picker for Calories
                     Picker("Calories", selection: $selectedCalories) {
-                        Text("Under 200").tag(Calories.Under200)
-                        Text("200-400").tag(Calories.Btwn200400)
-                        Text("400-600").tag(Calories.Betwn400600)
-                        Text("Above 600").tag(Calories.Above600)
+                        ForEach(Calories.allCases, id: \.self) { calories in
+                            Text(calories.rawValue).tag(calories)
+                        }
                     }.pickerStyle(.menu)
                 }//HStack
             }//Section
             
-            if self.recipeManager.recipeList.meals.isEmpty {
+            if self.recipeManager.filteredRecipeList.meals.isEmpty {
                 VStack{
                     HStack{
-                        
                         Text("Sorry :(")
                             .font(.headline)
                             .bold()
                             .padding()
-                        
                     }
                     Text("We can't find any recipes that fit your criteria.")
                         .font(.caption)
                 }.background(.white)
-                
             } else {
-                VStack{
-                    
-                    
-                    Section{
-                        
-                    }//Section
-                }
-                
-                
                 List {
-                    
-                    ForEach(self.recipeManager.recipeList.meals.indices, id: \.self){
-                        
-                        recipeIndex in
-                        
-                        let recipe = self.recipeManager.recipeList.meals[recipeIndex]
-                        
-                        NavigationLink(
-                            destination: RecipeDetails(recipeID: recipe.idMeal).environmentObject(self.recipeManager)
-                        ) {
-                            
-                            HStack{
-                                
+                    ForEach(self.recipeManager.filteredRecipeList.meals) { recipe in
+                        NavigationLink(destination: RecipeDetails(recipeID: recipe.idMeal).environmentObject(self.recipeManager)) {
+                            HStack {
                                 AsyncImage(
-                                    url: URL(string:recipe.strMealThumb),
-                                                content: { image in
-                                                    image.resizable()
-                                                         .aspectRatio(contentMode: .fit)
-                                                         .frame(maxWidth: 300, maxHeight: 100)
-                                                         .cornerRadius(10)
-                                                },
-                                                placeholder: {
-                                                    ProgressView()
-                                                }
-                                            )
-                                    
+                                    url: URL(string: recipe.strMealThumb),
+                                    content: { image in
+                                        image.resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(maxWidth: 300, maxHeight: 100)
+                                            .cornerRadius(10)
+                                    },
+                                    placeholder: {
+                                        ProgressView()
+                                    }
+                                )
                                 
-                                VStack {
-                                    
-                                    //Content of recipes
-                                    Text("\(recipe.strMeal)").fontWeight(.bold).lineLimit(1)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    
-                                    Text("3/4 stars").font(.subheadline)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    
-                                    Text("Ingredients").font(.caption).lineLimit(1)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    
-                                    Text("Description will be located here. Giving a preview of the steps.").font(.caption).lineLimit(3)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    
+                                VStack(alignment: .leading) {
+                                    Text("\(recipe.strMeal)").font(.subheadline).fontWeight(.bold)
+                                    Text("Tags:").bold().font(.caption)
+                                    Text("\(recipe.strTags ?? "No tags")").font(.caption).lineLimit(1).italic()
+                                    if recipe.ingredients != nil {
+                                        // Ingredients
+                                        Text("Ingredients:").bold().font(.caption)
+                                        Text(recipe.ingredients.map { "\($0.name)" }.joined(separator: ", ") ?? "No Ingredients")
+                                            .font(.caption)
+                                            .lineLimit(3)
+                                    }
                                     
                                 }//VStack
-                                
                             }//HStack
                         }//NavLink
                     }//ForEach
@@ -155,31 +116,43 @@ struct RecipeView: View {
                 .listStyle(.insetGrouped)
                 .listRowSeparator(.visible)
             }//if-else
-        }//Vstack
+        }//VStack
         .navigationTitle("Recipes")
         .navigationBarTitleDisplayMode(.inline)
         .background(.white)
         .clipped()
-        .onAppear() {
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                
-                self.recipeManager.getRecipes()
+        .onAppear {
+            if !isPageLoaded {
+                fetchRecipes()
             }
-        }//onAppear
+        }
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                
-                NavigationLink(destination: RecipeFavourites()
-                    ){
+                Button(action: {
+                    // Refresh button action
+                    fetchRecipes()
+                }) {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(.blue)
+                }
+                NavigationLink(destination: RecipeFavourites()) {
                     Image(systemName: "heart.fill")
                         .foregroundColor(.red)
                 }
             }//ToolbaritemGroup
         }//toolBar
     }//body
-}
-
-#Preview {
-    RecipeView()
+    
+    func fetchRecipes() {
+        self.recipeManager.getRecipes()
+        self.recipeManager.getRecipesById {
+            print(#function, "Getting recipes...")
+            
+            if self.recipeManager.filteredRecipeList.meals.isEmpty {
+                self.isPageLoaded = false
+            } else {
+                self.isPageLoaded = true
+            }
+        }
+    }
 }
