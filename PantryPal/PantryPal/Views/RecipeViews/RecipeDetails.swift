@@ -10,7 +10,7 @@ struct RecipeDetails: View {
             if let recipe = self.recipeManager.filteredRecipeList.meals.first(where: { $0.idMeal == recipeID }) {
                 VStack{
                     AsyncImage(
-                        url: URL(string:recipe.strMealThumb ?? ""),
+                        url: URL(string:recipe.strMealThumb),
                         content: { image in
                             image.resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -24,7 +24,7 @@ struct RecipeDetails: View {
                     VStack{
                         Spacer()
                         //Title
-                        Text("\(recipe.strMeal ?? "No Title")").font(.title).fontWeight(.bold)
+                        Text("\(recipe.strMeal)").font(.title).fontWeight(.bold)
                         
                         //Tags
                         Text("Tags: \(recipe.strTags ?? "Tag missing"), \(recipe.strArea ?? "Area missing"), \(recipe.strCategory ?? "Category missing")").font(.subheadline)
@@ -67,7 +67,7 @@ struct RecipeDetails: View {
                         
                         //Ingredients
                         Section(header: Text("Ingredients:").bold()) {
-                            ForEach(recipe.ingredients ?? [], id: \.self) { ingredient in
+                            ForEach(recipe.ingredients, id: \.self) { ingredient in
                                 Text("\(ingredient.name) - \(ingredient.measure)")
                                     .font(.subheadline)
                             }
@@ -87,7 +87,7 @@ struct RecipeDetails: View {
                     .cornerRadius(20)
                     .padding()
                 }//VStack
-                .background(Color(red: 185/255, green: 203/255, blue: 148/255))
+                .background(Color(.gray))
             } else {
                 VStack {
                     Text("Recipe not found")
