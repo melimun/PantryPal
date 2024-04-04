@@ -1,3 +1,4 @@
+/* Melissa Munoz */
 
 
 import Foundation
@@ -186,6 +187,7 @@ struct Recipe: Codable, Identifiable {
 }
 
 struct FoodItem: Codable, Hashable {
+    let id = UUID() // Unique identifier
     let name: String
     let measure: String
     

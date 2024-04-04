@@ -4,6 +4,9 @@ struct RecipeDetails: View {
     
     @EnvironmentObject private var recipeManager: RecipeManager
     @State var recipeID: String
+    @State private var isFavorited = false // Control presentation of alert
+
+
     
     var body: some View {
         ScrollView{
@@ -25,6 +28,8 @@ struct RecipeDetails: View {
                         Spacer()
                         //Title
                         Text("\(recipe.strMeal)").font(.title).fontWeight(.bold)
+                            .multilineTextAlignment(.center)
+
                         
                         //Tags
                         Text("Tags: \(recipe.strTags ?? "Tag missing"), \(recipe.strArea ?? "Area missing"), \(recipe.strCategory ?? "Category missing")").font(.subheadline)
@@ -47,14 +52,19 @@ struct RecipeDetails: View {
                         Spacer()
                         
                         HStack{
+                            
+                            //* Buttons *//
+                            
                             Button(action: {
-                                //Favourite
-                            }) {
-                                Image(systemName: "heart.fill")
-                                    .foregroundColor(.white)
-                                Text("Favourite").foregroundColor(.white)
-                            }.tint(.red).buttonStyle(.borderedProminent)
-                                .padding([.trailing], 50)
+                                                //Favourite
+                                                self.favouriteRecipe()
+                                            }) {
+                                                Image(systemName: isFavorited ? "heart.fill" : "heart")
+                                                    .foregroundColor(isFavorited ? .white : .white)
+                                                Text("Favourite").foregroundColor(.white)
+                                            }
+                                            .tint(.red).buttonStyle(.borderedProminent)
+                                            .padding([.trailing], 50)
                             
                             Button(action: {
                                 //Buy Ingredients
@@ -66,10 +76,14 @@ struct RecipeDetails: View {
                         }.padding()
                         
                         //Ingredients
-                        Section(header: Text("Ingredients:").bold()) {
+                        Section(header: Text("Ingredients:\n").bold()) {
                             ForEach(recipe.ingredients, id: \.self) { ingredient in
-                                Text("\(ingredient.name) - \(ingredient.measure)")
-                                    .font(.subheadline)
+                                HStack{
+                                    Text("\(ingredient.name)")
+                                        .font(.subheadline).bold()
+                                    Text("- \(ingredient.measure)")
+                                        .font(.subheadline)
+                                }
                             }
                         }.padding(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -87,7 +101,7 @@ struct RecipeDetails: View {
                     .cornerRadius(20)
                     .padding()
                 }//VStack
-                .background(Color(.gray))
+                .background(Color(red:239/255,green:239/255,blue:239/255))
             } else {
                 VStack {
                     Text("Recipe not found")
@@ -99,5 +113,19 @@ struct RecipeDetails: View {
                 }
             }
         }//ScrollView
-    }
-}
+        
+    }//body
+    
+    func favouriteRecipe(){
+            // Toggle favorited state
+            self.isFavorited.toggle()
+            
+            // You can perform additional actions here, like adding to database
+            
+            // Animate favorite button with spring animation
+            withAnimation(.spring()) {
+                // You can customize the animation properties as per your requirement
+            }
+        }
+    
+}//view
