@@ -2,30 +2,16 @@
 
 import SwiftUI
 
-enum Diet: String, CaseIterable, Identifiable {
-    case Balanced,
-         DairyFree,
-         GlutenFree,
-         HighFiber,
-         HighProtein,
-         LowCarb,
-         LowFat,
-         LowSodium,
-         LowSugar,
-         Vegan,
-         Vegetarian
+enum Area: String, CaseIterable, Identifiable {
+    case American, British, Canadian, French, Mexican, Indian, Italian, Polish, Greek
     var id: Self { self }
 }
 
-enum DiningType: String, CaseIterable, Identifiable {
-    case Breakfast, Lunch, Dinner, Snack
+enum Categories: String, CaseIterable, Identifiable {
+    case Vegan, Vegetarian
     var id: Self { self }
 }
 
-enum Calories: String, CaseIterable, Identifiable {
-    case Under200,Btwn200400,Betwn400600,Above600
-    var id: Self { self }
-}
 
 
 import SwiftUI
@@ -34,36 +20,36 @@ struct RecipeView: View {
     
     @EnvironmentObject var recipeManager: RecipeManager
     
-    @State private var selectedDiet: Diet = .Balanced
-    @State private var selectedDining: DiningType = .Breakfast
-    @State private var selectedCalories: Calories = .Under200
+    @State private var selectedArea: Area = .Canadian
+    @State private var selectedCategory: Categories = .Vegan
+
     @State private var isPageLoaded = false // Track if the page is loaded
     
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: "https://placehold.co/600x150/png"))
+            
+            Image("header")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: .infinity)
+            
             Section {
                 HStack {
                     // Picker for Diet
-                    Picker("Diet", selection: $selectedDiet) {
-                        ForEach(Diet.allCases, id: \.self) { diet in
-                            Text(diet.rawValue).tag(diet)
+                    Picker("Area", selection: $selectedArea) {
+                        ForEach(Area.allCases, id: \.self) { area in
+                            Text(area.rawValue).tag(area)
                         }
                     }.pickerStyle(.menu)
                     
                     // Picker for Dining Type
-                    Picker("Dining Type", selection: $selectedDining) {
-                        ForEach(DiningType.allCases, id: \.self) { diningType in
-                            Text(diningType.rawValue).tag(diningType)
+                    Picker("Category", selection: $selectedCategory) {
+                        ForEach(Categories.allCases, id: \.self) { category in
+                            Text(category.rawValue).tag(category)
                         }
                     }.pickerStyle(.menu)
                     
-                    // Picker for Calories
-                    Picker("Calories", selection: $selectedCalories) {
-                        ForEach(Calories.allCases, id: \.self) { calories in
-                            Text(calories.rawValue).tag(calories)
-                        }
-                    }.pickerStyle(.menu)
+                    
                 }//HStack
             }//Section
             
@@ -97,13 +83,14 @@ struct RecipeView: View {
                                 )
                                 
                                 VStack(alignment: .leading) {
+                                    
                                     Text("\(recipe.strMeal)").font(.subheadline).fontWeight(.bold)
                                     Text("Tags:").bold().font(.caption)
                                     Text("\(recipe.strTags ?? "No tags")").font(.caption).lineLimit(1).italic()
                                     if recipe.ingredients != nil {
                                         // Ingredients
                                         Text("Ingredients:").bold().font(.caption)
-                                        Text(recipe.ingredients.map { "\($0.name)" }.joined(separator: ", ") ?? "No Ingredients")
+                                        Text(recipe.ingredients.map { "\($0.name)" }.joined(separator: ", "))
                                             .font(.caption)
                                             .lineLimit(3)
                                     }
@@ -120,7 +107,6 @@ struct RecipeView: View {
         .navigationTitle("Recipes")
         .navigationBarTitleDisplayMode(.inline)
         .background(.white)
-        .clipped()
         .onAppear {
             if !isPageLoaded {
                 fetchRecipes()
@@ -144,6 +130,10 @@ struct RecipeView: View {
     }//body
     
     func fetchRecipes() {
+        
+        let area = selectedArea.rawValue.lowercased()
+        let category = selectedCategory.rawValue.lowercased()
+        
         self.recipeManager.getRecipes()
         self.recipeManager.getRecipesById {
             print(#function, "Getting recipes...")
