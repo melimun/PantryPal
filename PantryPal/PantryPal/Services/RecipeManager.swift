@@ -1,3 +1,5 @@
+/* Melissa Munoz */
+
 import Foundation
 
 class RecipeManager: ObservableObject {
@@ -6,7 +8,7 @@ class RecipeManager: ObservableObject {
     @Published var filteredRecipeList = RecipeResponse() //Get recipes that fit the certain ID
     @Published var recipeIDs = [String]() //string of IDs
     
-    @Published var ingredientList = ["chicken"] //ingredientTest
+    @Published var ingredientList = ["carrot", "onion"] //ingredientTest
     
     
     func byIngredientsURL(specification: String) -> String {
@@ -22,17 +24,17 @@ class RecipeManager: ObservableObject {
         guard let apiURL = URL(string: byIngredientsURL(specification: ingredientList.joined(separator: ","))) else {
             return
         }
-
+        
         URLSession.shared.dataTask(with: apiURL) { data, response, error in
             guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
                 print("Error fetching recipes")
                 return
             }
-
+            
             do {
                 let decoder = JSONDecoder()
                 let decodedRecipe = try decoder.decode(RecipeResponse.self, from: data)
-
+                
                 DispatchQueue.main.async {
                     self.recipeList = decodedRecipe
                     self.recipeIDs = decodedRecipe.meals.map { $0.idMeal }
@@ -89,4 +91,15 @@ class RecipeManager: ObservableObject {
             completion()
         }
     }
+    
+    func filterRecipesByAreaAndCategory(area: String, category: String) {
+        filteredRecipeList.meals = filteredRecipeList.meals.filter { recipe in
+            guard let recipeArea = recipe.strArea else {
+                return false
+            }
+            return recipeArea == area && recipe.strCategory == category
+        }
+    }
+    
+    
 }
