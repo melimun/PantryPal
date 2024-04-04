@@ -1,144 +1,145 @@
-// Melissa Munoz / Eli - 991642239
+/* Melissa Munoz */
 
 
 import SwiftUI
 
-enum Diet: String, CaseIterable, Identifiable {
-    case Balanced,
-         DairyFree,
-         GlutenFree,
-         HighFiber,
-         HighProtein,
-         LowCarb,
-         LowFat,
-         LowSodium,
-         LowSugar,
-         Vegan,
-         Vegetarian
+enum Area: String, CaseIterable, Identifiable {
+    case American, British, Canadian, French, Mexican, Indian, Italian, Polish, Greek, Jamaican, Chinese, Thai
     var id: Self { self }
 }
 
-enum DiningType: String, CaseIterable, Identifiable {
-    case Breakfast, Lunch, Dinner, Snack
+enum Categories: String, CaseIterable, Identifiable {
+    case Breakfast, Dessert, Starter, Vegan, Vegetarian
     var id: Self { self }
 }
 
-enum Calories: String, CaseIterable, Identifiable {
-    case Under200,Btwn200400,Betwn400600,Above600
-    var id: Self { self }
-}
 
+
+import SwiftUI
 
 struct RecipeView: View {
     
     @EnvironmentObject var recipeManager: RecipeManager
     
     
-    @State private var selectedDiet: Diet = .Balanced
-    @State private var selectedDining: DiningType = .Breakfast
-    @State private var selectedCalories: Calories = .Under200
+    @State private var selectedArea: Area = .Canadian
+    @State private var selectedCategory: Categories = .Vegan
     
+    @State private var errorMessage : String = ""
+    
+    @State private var isPageLoaded = false // Track if the page is loaded
     
     var body: some View {
+        
+        /* HEADER AND PICKERS */
+        
         VStack {
             
-            AsyncImage(url: URL(string: "https://placehold.co/600x150/png"))
-            Section{
-                
-                HStack{
-                    //Picker for Diet
+            Image("hRecipe")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity)
+            
+            Section {
+                HStack {
+                    Spacer()
+                    // Picker for Area
+                    Picker("Area", selection: $selectedArea) {
+                        ForEach(Area.allCases, id: \.self) { area in
+                            Text(area.rawValue).tag(area).foregroundColor(.black)
+                        }.padding()
+                    }.pickerStyle(.menu) .frame(maxWidth: .infinity)
+                        .border(Color.gray)
+                        .accentColor(.black)
                     
-                    Picker("Diet", selection: $selectedDiet) {
-                        
-                        Text("Balanced").tag(Diet.Balanced)
-                        Text("Dairy-Free").tag(Diet.DairyFree)
-                        Text("Gluten-Free").tag(Diet.GlutenFree)
-                        Text("High-Fiber").tag(Diet.HighFiber)
-                        Text("High-Protein").tag(Diet.HighProtein)
-                        Text("Low Carb").tag(Diet.LowCarb)
-                        Text("Low Fat").tag(Diet.LowFat)
-                        Text("Low Sodium").tag(Diet.LowSodium)
-                        Text("Low Sugar").tag(Diet.LowSugar)
-                        Text("Vegan").tag(Diet.Vegan)
-                        Text("Vegetarian").tag(Diet.Vegetarian)
-                    }.pickerStyle(.menu)
+                    // Picker for Dining Type
+                    Picker("Category", selection: $selectedCategory) {
+                        ForEach(Categories.allCases, id: \.self) { category in
+                            Text(category.rawValue).tag(category).foregroundColor(.black)
+                        }.padding()
+                    }.pickerStyle(.menu) .frame(maxWidth: .infinity)
+                        .border(Color.gray)
+                        .accentColor(.black)
                     
-                    //Picker for Dining Type
-                    Picker("Dining Type", selection: $selectedDining) {
-                        Text("Breakfast").tag(DiningType.Breakfast)
-                        Text("Lunch").tag(DiningType.Lunch)
-                        Text("Dinner").tag(DiningType.Dinner)
-                        Text("Snack").tag(DiningType.Snack)
-                    }.pickerStyle(.menu)
+                    Button(action: {
+                        self.filterRecipes()
+                    }) {
+                        Text("Filter")
+                            .font(.caption)
+                            .bold()
+                            .padding(3)
+                            .foregroundColor(.black)
+                    }
+                    .background(Color(red: 220/255, green: 220/255, blue: 220/255))
+                    .padding()
                     
-                    //Picker for Calories
-                    Picker("Calories", selection: $selectedCalories) {
-                        Text("Under 200").tag(Calories.Under200)
-                        Text("200-400").tag(Calories.Btwn200400)
-                        Text("400-600").tag(Calories.Betwn400600)
-                        Text("Above 600").tag(Calories.Above600)
-                    }.pickerStyle(.menu)
                 }//HStack
             }//Section
             
-            if self.recipeManager.recipeList.isEmpty {
+            Spacer()
+            /* LIST INFORMATION */
+            
+            
+            if self.recipeManager.filteredRecipeList.meals.isEmpty {
+                
                 VStack{
                     HStack{
-                        
-                        ProgressView()
-                            .controlSize(.large)
-                        Text("Loading...")
-                            .font(.headline)
+                        Text("Oops!")
+                            .font(.title)
                             .bold()
                             .padding()
-                        
                     }
-                    Text("Consulting our chefs")
-                        .font(.caption)
+                    Text("\(self.errorMessage)")
+                        .font(.subheadline)
+                        .multilineTextAlignment(.center)
                 }.background(.white)
                 
+                Spacer()
             } else {
-                VStack{
-                    
-                    
-                    Section{
-                        
-                    }//Section
-                }
-                
-                
                 List {
-                    
-                    ForEach(self.recipeManager.recipeList.indices, id: \.self) { recipeIndex in
-                        let recipe = self.recipeManager.recipeList[recipeIndex]
-                        
-                        NavigationLink(
-                            destination: RecipeDetails()
-                        ) {
-                            
-                            HStack{
+                    ForEach(self.recipeManager.filteredRecipeList.meals) { recipe in
+                        NavigationLink(destination: RecipeDetails(recipeID: recipe.idMeal).environmentObject(self.recipeManager)) {
+                            HStack {
+                                AsyncImage(
+                                    url: URL(string: recipe.strMealThumb),
+                                    content: { image in
+                                        image.resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(maxWidth: 300, maxHeight: 100)
+                                            .cornerRadius(10)
+                                    },
+                                    placeholder: {
+                                        ProgressView()
+                                    }
+                                )
                                 
-                                AsyncImage(url: URL(string: "https://placehold.co/100x100/png"))
-                                
-                                
-                                VStack {
+                                VStack(alignment: .leading) {
                                     
-                                    //Content of recipes
-                                    Text("Recipe Name").fontWeight(.bold).lineLimit(1)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    //Name of recipe
+                                    Text("\(recipe.strMeal)").font(.subheadline).fontWeight(.bold)
                                     
-                                    Text("3/4 stars").font(.subheadline)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    //For little pill tags
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack(spacing: 8){
+                                            ForEach(recipe.strTags?.components(separatedBy: ",") ?? [], id: \.self) { tag in
+                                                Text(tag.trimmingCharacters(in: .whitespaces))
+                                                    .font(.caption)
+                                                    .italic()
+                                                    .padding(.horizontal, 8)
+                                                    .padding(.vertical, 3)
+                                                    .background(RoundedRectangle(cornerRadius: 10).fill(Color(red: 193/255,green:221/255,blue:239/255)))
+                                                    .lineLimit(1)
+                                            }//ForEach
+                                        }//HStack
+                                    }//Scrollview
                                     
-                                    Text("Ingredients").font(.caption).lineLimit(1)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    
-                                    Text("Description will be located here. Giving a preview of the steps.").font(.caption).lineLimit(3)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    
+                                    //ingredients
+                                    Text("Ingredients:").bold().font(.caption)
+                                    Text(recipe.ingredients.map { "\($0.name)" }.joined(separator: ", "))
+                                        .font(.caption)
+                                        .lineLimit(3)
                                     
                                 }//VStack
-                                
                             }//HStack
                         }//NavLink
                     }//ForEach
@@ -146,31 +147,59 @@ struct RecipeView: View {
                 .listStyle(.insetGrouped)
                 .listRowSeparator(.visible)
             }//if-else
-        }//Vstack
+        }//VStack
         .navigationTitle("Recipes")
         .navigationBarTitleDisplayMode(.inline)
         .background(.white)
-        .clipped()
-        .onAppear() {
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                
-                self.recipeManager.getBooks()
-                
+        .onAppear {
+            if !isPageLoaded {
+                fetchRecipes()
             }
-        }//onAppear
+        }
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                
-                NavigationLink(destination: RecipeFavourites()){
+                Button(action: {
+                    // Refresh button action
+                    fetchRecipes()
+                }) {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundColor(.blue)
+                }
+                NavigationLink(destination: RecipeFavourites()) {
                     Image(systemName: "heart.fill")
                         .foregroundColor(.red)
                 }
             }//ToolbaritemGroup
         }//toolBar
     }//body
-}
-
-#Preview {
-    RecipeView()
+    
+    func fetchRecipes() {
+        
+        self.recipeManager.getRecipes()
+        self.recipeManager.getRecipesById {
+            print(#function, "Getting recipes...")
+            
+            if self.recipeManager.filteredRecipeList.meals.isEmpty {
+                self.errorMessage = "We can't seem to find a good recipe with those ingredients!"
+                self.isPageLoaded = false
+            } else {
+                self.errorMessage = ""
+                self.isPageLoaded = true
+            }
+        }
+    }//fetchrecipes
+    
+    func filterRecipes() {
+        
+        recipeManager.filterRecipesByAreaAndCategory(area: selectedArea.rawValue, category: selectedCategory.rawValue)
+        
+        if recipeManager.filteredRecipeList.meals.isEmpty {
+            self.errorMessage = "No matching results found."
+        } else {
+            self.errorMessage = "" // Reset errorMessage if there are matching results
+        }
+        
+    }//filterRecipes
+    
+    
 }
