@@ -20,7 +20,8 @@ import SwiftUI
 struct RecipeView: View {
     
     @EnvironmentObject var recipeManager: RecipeManager
-    
+    @EnvironmentObject var dbHelper : FireDBHelper
+
     
     @State private var selectedArea: Area = .Canadian
     @State private var selectedCategory: Categories = .Vegan
@@ -61,6 +62,7 @@ struct RecipeView: View {
                         .border(Color.gray)
                         .accentColor(.black)
                     
+                    //Button to submit filter
                     Button(action: {
                         self.filterRecipes()
                     }) {
@@ -159,13 +161,14 @@ struct RecipeView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: {
-                    // Refresh button action
                     fetchRecipes()
                 }) {
                     Image(systemName: "arrow.clockwise")
                         .foregroundColor(.blue)
                 }
-                NavigationLink(destination: RecipeFavourites()) {
+                NavigationLink(destination: RecipeFavourites()
+                    .environmentObject(dbHelper)
+                ) {
                     Image(systemName: "heart.fill")
                         .foregroundColor(.red)
                 }
@@ -175,7 +178,10 @@ struct RecipeView: View {
     
     func fetchRecipes() {
         
+        //get Recipe by the ingredient list FIRST!
         self.recipeManager.getRecipes()
+        
+        //This is needed for the page to only load ONCE!
         self.recipeManager.getRecipesById {
             print(#function, "Getting recipes...")
             
@@ -196,7 +202,7 @@ struct RecipeView: View {
         if recipeManager.filteredRecipeList.meals.isEmpty {
             self.errorMessage = "No matching results found."
         } else {
-            self.errorMessage = "" // Reset errorMessage if there are matching results
+            self.errorMessage = ""
         }
         
     }//filterRecipes
