@@ -4,7 +4,7 @@ struct RecipeDetails: View {
     
     @EnvironmentObject private var recipeManager: RecipeManager
     @State var recipeID: String
-    @State private var isFavorited = false // Control presentation of alert
+    @State private var isFavorited = false
 
 
     
@@ -119,12 +119,10 @@ struct RecipeDetails: View {
     func favouriteRecipe(){
             // Toggle favorited state
             self.isFavorited.toggle()
-            
-            // You can perform additional actions here, like adding to database
-            
-            // Animate favorite button with spring animation
+        
+            //Code to add to the firebase database
             withAnimation(.spring()) {
-                // You can customize the animation properties as per your requirement
+                //No customizations for animation
             }
         }
     

@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct RecipeFavourites: View {
+    
     @EnvironmentObject var recipeManager: RecipeManager
+    @EnvironmentObject var dbHelper : FireDBHelper
+
     
     var body: some View {
         
