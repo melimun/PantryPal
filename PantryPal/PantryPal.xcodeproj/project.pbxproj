@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45827ACB2BC8AED400273E69 /* RecipeFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45827ACA2BC8AED400273E69 /* RecipeFirebase.swift */; };
 		45AA70992B72CC590067E513 /* PantryPalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA70982B72CC590067E513 /* PantryPalApp.swift */; };
 		45AA709D2B72CC5B0067E513 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45AA709C2B72CC5B0067E513 /* Assets.xcassets */; };
 		45AA70A02B72CC5B0067E513 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45AA709F2B72CC5B0067E513 /* Preview Assets.xcassets */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		45827ACA2BC8AED400273E69 /* RecipeFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFirebase.swift; sourceTree = "<group>"; };
 		45AA70952B72CC590067E513 /* PantryPal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PantryPal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45AA70982B72CC590067E513 /* PantryPalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryPalApp.swift; sourceTree = "<group>"; };
 		45AA709C2B72CC5B0067E513 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				45E03F3E2B8D26A800AF53A8 /* RecipeManager.swift */,
+				45827ACA2BC8AED400273E69 /* RecipeFirebase.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45827ACB2BC8AED400273E69 /* RecipeFirebase.swift in Sources */,
 				4C1FF6E72B95128F0008D612 /* GroceryDetails.swift in Sources */,
 				4C06576A2B78647000F1E048 /* PantryView.swift in Sources */,
 				45E03F452B8E8C3600AF53A8 /* RecipeFavourites.swift in Sources */,

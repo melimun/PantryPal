@@ -13,12 +13,19 @@ import FirebaseFirestore
 struct PantryPalApp: App {
     
     let recipeManager = RecipeManager()
-
+    
+    let fireDBHelper : FireDBHelper
+    
+    init() {
+        FirebaseApp.configure()
+        fireDBHelper = FireDBHelper.getInstance()
+    }
     
     var body: some Scene {
         WindowGroup {
             PantryView()
                 .environmentObject(self.recipeManager)
+                .environmentObject(fireDBHelper)
         }
     }
 }

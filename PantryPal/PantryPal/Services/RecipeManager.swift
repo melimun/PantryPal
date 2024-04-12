@@ -1,174 +1,105 @@
-// Melissa Munoz / Eli - 991642239
+/* Melissa Munoz */
 
 import Foundation
-import UIKit
 
-class RecipeManager : ObservableObject{
+class RecipeManager: ObservableObject {
     
-    @Published var recipeList = [Recipe()]
+    @Published var recipeList = RecipeResponse() //Get recipes that have those ingredients
+    @Published var filteredRecipeList = RecipeResponse() //Get recipes that fit the certain ID
+    @Published var recipeIDs = [String]() //string of IDs
+    
+    @Published var ingredientList = ["carrot", "onion"] //ingredientTest
     
     
-    //polymorphism
-    func getURL() -> String{
-        
-        let baseURL = "https://api.edamam.com/api/recipes/v2?type=public&app_id=193be525&app_key=89bf827911b8b9c669787660a80dad82"
-        
-        return baseURL
+    func byIngredientsURL(specification: String) -> String {
+        let encodedIngredients = specification.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        return "https://www.themealdb.com/api/json/v2/9973533/filter.php?i=\(encodedIngredients)"
     }
     
-    func getURL(specification:String) -> String{
-        
-        //ToDo: Review API parameters
-        let baseURL = "https://api.edamam.com/api/recipes/v2?type=public&app_id=193be525&app_key=89bf827911b8b9c669787660a80dad82" + specification
-        
-        return baseURL
+    func byRecipeIDURL(id: String) -> String {
+        return "https://www.themealdb.com/api/json/v2/9973533/lookup.php?i=\(id)"
     }
     
-
-    
-    func getBooks(){
-        
-        print("GetBooks() Fetching data from API called")
-                
-        //convert string to URL type
-        guard let apiURL = URL(string: getURL()) else{
+    func getRecipes() {
+        guard let apiURL = URL(string: byIngredientsURL(specification: ingredientList.joined(separator: ","))) else {
             return
         }
-    
         
-        //initiate asynchronosu background task
-        let task = URLSession.shared.dataTask(with: apiURL){
-            
-            (data: Data?, response: URLResponse?, error: Error?) in
-            
-            if let err = error {
-                
-                print(#function, "Unable to connect to the web service :\(err)")
-                
+        URLSession.shared.dataTask(with: apiURL) { data, response, error in
+            guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                print("Error fetching recipes")
                 return
-            }else{
-                
-                print(#function, "Connected to web service\n")
-                
-                if let httpResponse = response as? HTTPURLResponse{
-                    if (httpResponse.statusCode == 200){
-                        
-                        //if-ok
-                        print("HTTP: 200 OK!\n")
-                        
-                        DispatchQueue.global().async {
-                            
-                            do{
-                                
-                                if (data != nil){
-                                    
-                                    if let jsonData = data{
-                                        let decoder = JSONDecoder()
-                                        
-                                        var decodedRecipe = try decoder.decode([Recipe].self, from:jsonData)
-                                        
-                                        //                                        dump(decodedBook)
-                                        
-                                        
-                                        for recipeIndex in 0..<decodedRecipe.count {
-                                            var recipe = decodedRecipe[recipeIndex]
-                                            
-                                            //                                            if let thumbnailURL = recipe.volumeInfo.imageLinks?.thumbnail {
-                                            
-                                            //                                                self.fetchImageFromAPI(from: thumbnailURL) {
-                                            //
-                                            //                                                    imageData in
-                                            //
-                                            //                                                    DispatchQueue.main.async {
-                                            //                                                        if let imageData = imageData, let image = UIImage(data: imageData) {
-                                            //
-                                            //
-                                            //                                                            book.volumeInfo.image = image
-                                            //                                                            self.objectWillChange.send() // Notify SwiftUI of changes
-                                            //
-                                            //
-                                            //                                                            self.bookList.items[recipeIndex] = book
-                                            //
-                                            //
-                                            //                                                        } else {
-                                            //                                                            print(#function, "Failed to get image data for recipe with index \(recipeIndex).")
-                                            //                                                        }
-                                            //                                                    }//Dispatch
-                                            //                                                }//fetchDatafromApi
-                                            //                                            } else {
-                                            //                                                print(#function, "No JSON data of small thumbnail available for book with index \(bookIndex).")
-                                            //                                            }//if-else
-                                            //                                        }//GrabImageData
-                                            //
-                                            DispatchQueue.main.async{
-                                                self.recipeList = decodedRecipe
-                                            }//main-sync
-                                            
-                                            //                                    }
-                                        }
-                                    }
-                                }else{
-                                    print(#function, "No JSON data available.")
-                                }//if..else
-                                
-                            }catch let error{
-                                
-                                print(#function, "Unable to decode data. Error: \(error)\n")
-                                
-                            }//do..catch
-                            
-                        }//dispatchQueue
-                        
-                        
-                    }else{
-                        print(#function, "Unable to receive response. httpResponse.statusCode : \(httpResponse.statusCode)\n")
-                    }//if-200
-                }else{
-                    print(#function, "Unable to obtain HTTPResponse\n")
-                }//if httpResponse not gotten
-                
-            }//if-else
-        }//task
-        task.resume()
-    }//getBooks
-    
-    
-    //it will escape once it is completed
-    func fetchImageFromAPI(from url: URL, withCompletion completion : @escaping(Data?) -> Void){
-                
-        let task = URLSession.shared.dataTask(with: url, completionHandler: {
-            (data: Data?, response: URLResponse?, error: Error?) in
+            }
             
-            if (error != nil){
+            do {
+                let decoder = JSONDecoder()
+                let decodedRecipe = try decoder.decode(RecipeResponse.self, from: data)
                 
-                print(#function, "unable to connect to image hosting web server due to error: \(error)")
-            }else{
-                
-                if let httpResponse = response as? HTTPURLResponse{
-                    print(#function, "httpResponse: \(httpResponse)")
-                    
-                    if (httpResponse.statusCode == 200){
-                        
-                        if (data != nil){
-                        
-                            completion(data)
-                            
-                        }else{
-                            print(#function, "No data from server response found.")
-                        }//if-else data is not nil
-                        
-                    }else{
-                        
-                        print(#function, "HTTP response is not OK: \(httpResponse.statusCode).")
-                        
-                    }//if 200
-                    
-                }//if let httpResponse
-            }//if-else
-        })//lambda
-        
-        task.resume()
-        
-    }//fetchImageFromApi
+                DispatchQueue.main.async {
+                    self.recipeList = decodedRecipe
+                    self.recipeIDs = decodedRecipe.meals.map { $0.idMeal }
+                }
+            } catch {
+                print("Error decoding recipes: \(error)")
+            }
+        }.resume()
+    }
     
-}//bookManager
+    func resetLists() {
+        recipeIDs.removeAll()
+        recipeList = RecipeResponse()
+        filteredRecipeList = RecipeResponse()
+    }
+    
+    func getRecipesById(completion: @escaping () -> Void) {
+        var filteredRecipeLists = RecipeResponse()
+        let dispatchGroup = DispatchGroup()
+        
+        for id in recipeIDs {
+            dispatchGroup.enter()
+            
+            guard let apiURL = URL(string: byRecipeIDURL(id: id)) else {
+                dispatchGroup.leave()
+                continue
+            }
+            
+            URLSession.shared.dataTask(with: apiURL) { data, response, error in
+                defer {
+                    dispatchGroup.leave()
+                }
+                
+                guard let data = data, let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    print("Error fetching recipe with ID: \(id)")
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let decodedRecipe = try decoder.decode(RecipeResponse.self, from: data)
+                    
+                    DispatchQueue.main.async {
+                        filteredRecipeLists.meals.append(contentsOf: decodedRecipe.meals)
+                    }
+                } catch {
+                    print("Error decoding recipe with ID: \(id)")
+                }
+            }.resume()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.filteredRecipeList = filteredRecipeLists
+            completion()
+        }
+    }
+    
+    func filterRecipesByAreaAndCategory(area: String, category: String) {
+        filteredRecipeList.meals = filteredRecipeList.meals.filter { recipe in
+            guard let recipeArea = recipe.strArea else {
+                return false
+            }
+            return recipeArea == area && recipe.strCategory == category
+        }
+    }
+    
+    
+}
