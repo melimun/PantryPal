@@ -5,7 +5,7 @@ struct RecipeDetails: View {
     @EnvironmentObject private var recipeManager: RecipeManager
     @State var recipeID: String
     @State private var isFavorited = false
-
+    @EnvironmentObject var dbHelper : FireDBHelper
 
     
     var body: some View {
@@ -57,7 +57,7 @@ struct RecipeDetails: View {
                             
                             Button(action: {
                                                 //Favourite
-                                                self.favouriteRecipe()
+                                self.favouriteRecipe(recipe: recipe)
                                             }) {
                                                 Image(systemName: isFavorited ? "heart.fill" : "heart")
                                                     .foregroundColor(isFavorited ? .white : .white)
@@ -116,14 +116,38 @@ struct RecipeDetails: View {
         
     }//body
     
-    func favouriteRecipe(){
-            // Toggle favorited state
-            self.isFavorited.toggle()
+    func favouriteRecipe(recipe: Recipe) {
+        print(#function, "Favourite recipe function called")
         
-            //Code to add to the firebase database
-            withAnimation(.spring()) {
-                //No customizations for animation
-            }
+        self.isFavorited.toggle()
+        
+        print(#function, "Attempting to add recipe to firebase...")
+        
+        let newRecipe = RecipeFirebase(
+            id: nil,
+            idMeal: recipe.idMeal,
+            strMeal: recipe.strMeal,
+            strMealThumb: recipe.strMealThumb,
+            strArea: recipe.strArea ?? "",
+            strCategory: recipe.strCategory ?? "",
+            strInstructions: recipe.strInstructions ?? "",
+            strTags: recipe.strTags ?? "",
+            strYoutube: recipe.strYoutube ?? "",
+            strSource: recipe.strSource ?? "",
+            strImageSource: recipe.strImageSource ?? "",
+            strCreativeCommonsConfirmed: recipe.strCreativeCommonsConfirmed ?? "",
+            dateModified: recipe.dateModified ?? "",
+            ingredients: recipe.ingredients.map { $0.name }
+        )
+        
+        self.dbHelper.insertRecipe(recipe: newRecipe)
+        
+        print(#function, "Recipe added to Firebase")
+        
+        withAnimation(.spring()) {
+            //No customizations for animation
         }
+    }
+
     
 }//view
