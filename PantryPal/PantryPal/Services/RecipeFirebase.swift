@@ -20,7 +20,7 @@ struct RecipeFirebase: Codable, Hashable {
     var strCategory: String
     var strArea: String
     var strInstructions: String
-    var strTags: String
+    var strTags: String?
     var strYoutube: String
     var strSource: String
     var strImageSource: String
@@ -29,7 +29,7 @@ struct RecipeFirebase: Codable, Hashable {
 
     var ingredients: [String]?
     
-    init(id: String?, idMeal: String, strMeal: String, strMealThumb: String, strArea: String, strCategory: String, strInstructions: String, strTags : String, strYoutube : String, strSource : String, strImageSource : String, strCreativeCommonsConfirmed : String, dateModified : String, ingredients : [String]?) {
+    init(id: String?, idMeal: String, strMeal: String, strMealThumb: String, strArea: String, strCategory: String, strInstructions: String, strTags : String?, strYoutube : String, strSource : String, strImageSource : String, strCreativeCommonsConfirmed : String, dateModified : String, ingredients : [String]?) {
         self.id = id ?? UUID().uuidString
         self.idMeal = idMeal
         self.strMeal = strMeal
@@ -37,7 +37,7 @@ struct RecipeFirebase: Codable, Hashable {
         self.strMealThumb = strMealThumb
         self.strArea = strArea
         self.strInstructions = strInstructions
-        self.strTags = strTags
+        self.strTags = strTags ?? "N/A"
         self.strYoutube = strYoutube
         self.strSource = strSource
         self.strImageSource = strImageSource
@@ -89,7 +89,7 @@ struct RecipeFirebase: Codable, Hashable {
                 "strCategory": strCategory,
                 "strArea": strArea,
                 "strInstructions": strInstructions,
-                "strTags": strTags,
+                "strTags": strTags ?? "N/A",
                 "strYoutube": strYoutube,
                 "strSource": strSource,
                 "strImageSource": strImageSource,
