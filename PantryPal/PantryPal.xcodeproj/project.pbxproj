@@ -34,6 +34,8 @@
 		AAC589472BBDA9EF0058CE36 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC589462BBDA9EF0058CE36 /* MapView.swift */; };
 		AAC589492BBDA9FB0058CE36 /* WalmartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC589482BBDA9FB0058CE36 /* WalmartItem.swift */; };
 		AAC5894B2BBDAA5A0058CE36 /* WalmartItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC5894A2BBDAA5A0058CE36 /* WalmartItemManager.swift */; };
+		AAEACF542BC9687100035AFC /* WalmartMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEACF532BC9687100035AFC /* WalmartMap.swift */; };
+		AAEACF562BC968AA00035AFC /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEACF552BC968AA00035AFC /* SheetView.swift */; };
 		AAFE19B52BC02B83003B035D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAFE19B42BC02B81003B035D /* GoogleService-Info.plist */; };
 		AAFE19B72BC02C29003B035D /* ItemFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFE19B62BC02C29003B035D /* ItemFirebase.swift */; };
 		AAFE19B92BC041FF003B035D /* TempModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFE19B82BC041FF003B035D /* TempModel.swift */; };
@@ -87,6 +89,8 @@
 		AAC589462BBDA9EF0058CE36 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		AAC589482BBDA9FB0058CE36 /* WalmartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalmartItem.swift; sourceTree = "<group>"; };
 		AAC5894A2BBDAA5A0058CE36 /* WalmartItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalmartItemManager.swift; sourceTree = "<group>"; };
+		AAEACF532BC9687100035AFC /* WalmartMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalmartMap.swift; sourceTree = "<group>"; };
+		AAEACF552BC968AA00035AFC /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
 		AAFE19B42BC02B81003B035D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../BookCollect/BookCollect/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AAFE19B62BC02C29003B035D /* ItemFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFirebase.swift; sourceTree = "<group>"; };
 		AAFE19B82BC041FF003B035D /* TempModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempModel.swift; sourceTree = "<group>"; };
@@ -267,6 +271,8 @@
 				AAC589422BBDA9D80058CE36 /* ItemListView.swift */,
 				AAC589442BBDA9E50058CE36 /* ItemDetailsView.swift */,
 				AAC589462BBDA9EF0058CE36 /* MapView.swift */,
+				AAEACF532BC9687100035AFC /* WalmartMap.swift */,
+				AAEACF552BC968AA00035AFC /* SheetView.swift */,
 			);
 			path = ItemViews;
 			sourceTree = "<group>";
@@ -426,12 +432,14 @@
 				4C1FF6E52B95120D0008D612 /* NewGroceryView.swift in Sources */,
 				AAFE19BB2BC0480B003B035D /* Location.swift in Sources */,
 				AAFE19BD2BC04841003B035D /* LocationManager.swift in Sources */,
+				AAEACF542BC9687100035AFC /* WalmartMap.swift in Sources */,
 				45E03F3F2B8D26A800AF53A8 /* RecipeManager.swift in Sources */,
 				45AA70992B72CC590067E513 /* PantryPalApp.swift in Sources */,
 				4C1FF6DE2B94E43A0008D612 /* CameraPicker.swift in Sources */,
 				4C1FF6E02B94E4560008D612 /* LibraryPicker.swift in Sources */,
 				45E03F382B8D25A800AF53A8 /* RecipeView.swift in Sources */,
 				AAC589432BBDA9D80058CE36 /* ItemListView.swift in Sources */,
+				AAEACF562BC968AA00035AFC /* SheetView.swift in Sources */,
 				AAC589492BBDA9FB0058CE36 /* WalmartItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
