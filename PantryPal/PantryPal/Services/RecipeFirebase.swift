@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestoreSwift
 import CoreLocation
 
-struct LocationFirebase: Codable, Hashable {
+struct RecipeFirebase: Codable, Hashable {
     
     @DocumentID var id: String?
     var strMeal: String

@@ -10,15 +10,15 @@ import FirebaseFirestore
 
 class FireDBHelper : ObservableObject{
     
+    //Dictionaries
     @Published var studentList = [Ingredient]()
+    @Published var favouriteList = [RecipeFirebase]()
+
     
     private let db : Firestore
-    
-    //singleton design pattern
-    //singleton object
-    
     private static var shared : FireDBHelper?
     
+    // ??
     private let COLLECTION_NAME = "Ingredients"
     private let ATTRIBUTE_FNAME = "firstname"
     private let ATTRIBUTE_LNAME = "lastname"
@@ -27,10 +27,28 @@ class FireDBHelper : ObservableObject{
     private let ATTRIBUTE_CCR = "ccr"
     private let ATTRIBUTE_PROGRAM = "program"
     
+    //For Recipe Collection; Easier for names
+    private let COLLECTION_RNAME = "Recipes"
+    private let ATTRIBUTE_STRMEAL = "strMeal"
+    private let ATTRIBUTE_STRCATEGORY = "strCategory"
+    private let ATTRIBUTE_STRMEALTHUMB = "strMealThumb"
+    private let ATTRIBUTE_STRAREA = "strArea"
+    private let ATTRIBUTE_STRINSTRUCTIONS = "strInstructions"
+    private let ATTRIBUTE_STRTAGS = "strTags"
+    private let ATTRIBUTE_STRYOUTUBE = "strYoutube"
+    private let ATTRIBUTE_STRSOURCE = "strSource"
+    private let ATTRIBUTE_STRIMAGESOURCE = "strImageSource"
+    private let ATTRIBUTE_STRCREATIVECOMMONSCONFIRMED = "strCreativeCommonsConfirmed"
+    private let ATTRIBUTE_DATEMODIFIED = "dateModified"
+    private let ATTRIBUTE_INGREDIENTS = "ingredients"
+
+    
+    //Initialize firebase
     private init(database : Firestore){
         self.db = database
     }
     
+    //create Instance of firestore
     static func getInstance() -> FireDBHelper{
         
         if (self.shared == nil){
@@ -39,6 +57,9 @@ class FireDBHelper : ObservableObject{
         
         return self.shared!
     }
+    
+    
+    //* I N G R E D I E N T  F U N C T I O N S *//
     
     func insertIngredient(stud : Ingredient){
         do{
@@ -202,5 +223,65 @@ class FireDBHelper : ObservableObject{
                 
             }
     }
+    
+    
+    //** R E C I P E  F U N C T I O N S **//
+    
+    func insertRecipe(recipe : RecipeFirebase){
+        do{
+            try self.db.collection(COLLECTION_RNAME).addDocument(from: recipe)
+            
+        }catch let err as NSError{
+            print(#function, "Unable to insert : \(err)")
+        }
+    }
+    
+    func deleteRecipe(docIDtoDelete : String){
+        self.db
+            .collection(COLLECTION_RNAME)
+            .document(docIDtoDelete)
+            .delete{error in
+                if let err = error{
+                    print(#function, "Unable to delete : \(err)")
+                }else{
+                    print(#function, "Document deleted successfully")
+                }
+            }
+    }
+    
+    func retrieveAllRecipes() {
+        self.db.collection(COLLECTION_RNAME)
+            .order(by: ATTRIBUTE_DATEMODIFIED, descending: false)
+            .addSnapshotListener { [weak self] snapshot, error in
+            guard let result = snapshot else {
+                print(#function, "Unable to retrieve snapshot: \(error ?? "Unknown Error" as! Error)")
+                return
+            }
+            
+            result.documentChanges.forEach { docChange in
+                do {
+                    let favourite = try docChange.document.data(as: RecipeFirebase.self)
+                    
+                    if docChange.type == .added {
+                        self?.favouriteList.append(favourite)
+                    }
+                    
+                    if docChange.type == .modified {
+                        // Handle modified document if needed
+                    }
+                    
+                    if docChange.type == .removed {
+                        if let index = self?.favouriteList.firstIndex(where: { $0.id == favourite.id }) {
+                            self?.favouriteList.remove(at: index)
+                        }
+                    }
+                    
+                } catch let err as NSError {
+                    print(#function, "Unable to access document change: \(err)")
+                }
+            }
+        }
+    }
+    
     
 }
