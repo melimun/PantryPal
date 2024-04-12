@@ -30,6 +30,7 @@ class FireDBHelper : ObservableObject{
     //For Recipe Collection; Easier for names
     private let COLLECTION_RNAME = "Recipes"
     private let ATTRIBUTE_STRMEAL = "strMeal"
+    private let ATTRIBUTE_IDMEAL = "idMeal"
     private let ATTRIBUTE_STRCATEGORY = "strCategory"
     private let ATTRIBUTE_STRMEALTHUMB = "strMealThumb"
     private let ATTRIBUTE_STRAREA = "strArea"
@@ -230,6 +231,8 @@ class FireDBHelper : ObservableObject{
     func insertRecipe(recipe : RecipeFirebase){
         do{
             try self.db.collection(COLLECTION_RNAME).addDocument(from: recipe)
+            
+            print(#function, "Inserted into favourites")
             
         }catch let err as NSError{
             print(#function, "Unable to insert : \(err)")

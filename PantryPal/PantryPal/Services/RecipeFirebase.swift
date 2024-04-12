@@ -12,6 +12,8 @@ import CoreLocation
 struct RecipeFirebase: Codable, Hashable {
     
     @DocumentID var id: String?
+    
+    var idMeal : String
     var strMeal: String
     var strMealThumb: String
     
@@ -27,8 +29,9 @@ struct RecipeFirebase: Codable, Hashable {
 
     var ingredients: [String]?
     
-    init(id: String?, strMeal: String, strMealThumb: String, strArea: String, strCategory: String, strInstructions: String, strTags : String, strYoutube : String, strSource : String, strImageSource : String, strCreativeCommonsConfirmed : String, dateModified : String, ingredients : [String]?) {
+    init(id: String?, idMeal: String, strMeal: String, strMealThumb: String, strArea: String, strCategory: String, strInstructions: String, strTags : String, strYoutube : String, strSource : String, strImageSource : String, strCreativeCommonsConfirmed : String, dateModified : String, ingredients : [String]?) {
         self.id = id ?? UUID().uuidString
+        self.idMeal = idMeal
         self.strMeal = strMeal
         self.strCategory = strCategory
         self.strMealThumb = strMealThumb
@@ -49,6 +52,7 @@ struct RecipeFirebase: Codable, Hashable {
     init?(dictionary: [String: Any]) {
         guard let strMeal = dictionary["strMeal"] as? String,
               let strMealThumb = dictionary["strMealThumb"] as? String,
+              let idMeal = dictionary["idMeal"] as? String,
               let strCategory = dictionary["strCategory"] as? String,
               let strArea = dictionary["strArea"] as? String,
               let strInstructions = dictionary["strInstructions"] as? String,
@@ -62,7 +66,7 @@ struct RecipeFirebase: Codable, Hashable {
             return nil
         }
         
-        self.init(id: nil,
+        self.init(id: nil, idMeal: idMeal,
                   strMeal: strMeal,
                   strMealThumb: strMealThumb,
                   strArea: strArea, strCategory: strCategory,
@@ -79,6 +83,7 @@ struct RecipeFirebase: Codable, Hashable {
     // Convert to a dictionary for Firestore
     func toDictionary() -> [String: Any] {
             var dictionary: [String: Any] = [
+                "idMeal" : idMeal,
                 "strMeal": strMeal,
                 "strMealThumb": strMealThumb,
                 "strCategory": strCategory,

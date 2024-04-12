@@ -100,7 +100,9 @@ struct RecipeView: View {
             } else {
                 List {
                     ForEach(self.recipeManager.filteredRecipeList.meals) { recipe in
-                        NavigationLink(destination: RecipeDetails(recipeID: recipe.idMeal).environmentObject(self.recipeManager)) {
+                        NavigationLink(destination: RecipeDetails(recipeID: recipe.idMeal).environmentObject(self.recipeManager)
+                            .environmentObject(self.dbHelper)
+                        ) {
                             HStack {
                                 AsyncImage(
                                     url: URL(string: recipe.strMealThumb),
