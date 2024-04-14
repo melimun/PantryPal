@@ -19,28 +19,33 @@ struct ItemListView: View {
                     Text("No data received from API")
                 }else{
                     List(self.itemManager.itemList){item in
-                        VStack(){
-                            Text(item.name)
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .foregroundColor(.blue)
-                                .font(.title)
-                            
-                            Text(item.category)
-                                .multilineTextAlignment(.center)
-                            
-                            Text(String(item.inStock))
-                                .multilineTextAlignment(.center)
-                            
-                            Text(String(item.itemId))
-                                .multilineTextAlignment(.center)
-                            
-                            Text(String(item.price))
-                                .multilineTextAlignment(.center)
-                            
-                            Text(item.manufacturer)
-                                .multilineTextAlignment(.center)
-                            
+                        NavigationLink(destination: ItemDetailsView(itemID: item.itemId)
+                            .environmentObject(self.dbHelper).environmentObject(self.itemManager)
+                        ) {
+                            VStack(){
+                                Text(item.name)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .foregroundColor(.blue)
+                                    .font(.title)
+                                
+                                Text(item.category)
+                                    .multilineTextAlignment(.center)
+                                
+                                Text(String(item.inStock))
+                                    .multilineTextAlignment(.center)
+                                
+                                Text(String(item.itemId))
+                                    .multilineTextAlignment(.center)
+                                
+                                Text(String(item.price))
+                                    .multilineTextAlignment(.center)
+                                
+                                Text(item.manufacturer)
+                                    .multilineTextAlignment(.center)
+                                
+                            }
                         }
+                        
                         
                     }
                 }
