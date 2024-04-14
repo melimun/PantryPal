@@ -10,11 +10,11 @@ import FirebaseFirestore
 
 class FireDBHelper : ObservableObject{
     
-    @Published var ingredientList = [Ingredient]()
-    @Published var itemList = [ItemFirebase]()
     //Dictionaries
     @Published var studentList = [Ingredient]()
     @Published var favouriteList = [RecipeFirebase]()
+    
+    @Published var itemList = [ItemFirebase]()
 
     
     private let db : Firestore
@@ -112,7 +112,7 @@ class FireDBHelper : ObservableObject{
                             print(#function, "stud from db : id : \(stud.id) firstname : \(stud.firstname)")
                             
                             //check if the changed document is already in the list
-                            let matchedIndex = self.ingredientList.firstIndex(where: { ($0.id?.elementsEqual(stud.id!))!})
+                            let matchedIndex = self.studentList.firstIndex(where: { ($0.id?.elementsEqual(stud.id!))!})
                             
                             if docChange.type == .added{
                                 
@@ -120,7 +120,7 @@ class FireDBHelper : ObservableObject{
                                     //the document object is already in the list
                                     //do nothing to avoid duplicates
                                 }else{
-                                    self.ingredientList.append(stud)
+                                    self.studentList.append(stud)
                                 }
                                 
                                 print(#function, "New document added : \(stud)")
@@ -183,7 +183,7 @@ class FireDBHelper : ObservableObject{
                             let stud = try docChange.document.data(as: Ingredient.self)
                             
                             if docChange.type == .added{
-                                self.ingredientList.append(stud)
+                                self.studentList.append(stud)
                             }
                         }catch let err as NSError{
                             print(#function, "Unable to obtain Ingredient object \(err)" )
@@ -211,11 +211,11 @@ class FireDBHelper : ObservableObject{
         //updateData more apprpropriate if some fields of document needs to be updated
         self.db
             .collection(COLLECTION_NAME)
-            .document(self.ingredientList[updatedIngredientIndex].id!)
-            .updateData([ATTRIBUTE_FNAME : self.ingredientList[updatedIngredientIndex].firstname,
-                         ATTRIBUTE_LNAME : self.ingredientList[updatedIngredientIndex].lastname,
-                         ATTRIBUTE_CCR : self.ingredientList[updatedIngredientIndex].ccr,
-                         ATTRIBUTE_GPA : self.ingredientList[updatedIngredientIndex].gpa,
+            .document(self.studentList[updatedIngredientIndex].id!)
+            .updateData([ATTRIBUTE_FNAME : self.studentList[updatedIngredientIndex].firstname,
+                         ATTRIBUTE_LNAME : self.studentList[updatedIngredientIndex].lastname,
+                         ATTRIBUTE_CCR : self.studentList[updatedIngredientIndex].ccr,
+                         ATTRIBUTE_GPA : self.studentList[updatedIngredientIndex].gpa,
                         ]){ error in
                 
                 if let err = error{
@@ -227,7 +227,6 @@ class FireDBHelper : ObservableObject{
             }
     }
     
-    func retrieveItemByFavorites(favStatus : String){
     
     //** R E C I P E  F U N C T I O N S **//
     
@@ -264,31 +263,6 @@ class FireDBHelper : ObservableObject{
                 return
             }
             
-            self.db
-                .collection(COLLECTION_NAME)
-                .whereField("isFavourited", isEqualTo: favStatus)
-//                .whereField("gpa", isGreaterThan: 3.4 )
-//                .whereField("firstname", in: [fname, "Amy", "James])
-//                .order(by: "gpa", descending: true)
-                .addSnapshotListener( { (snapshot, error) in
-                    
-                    guard let result = snapshot else {
-                        print(#function, "Unable to search database for the firstname due to error  : \(error)")
-                        return
-                    }
-                    
-                    print(#function, "Result of search by first name : \(result)")
-                    
-                    result.documentChanges.forEach{ (docChange) in
-                        //try to convert the firestore document to Student object and update the studentList
-                        do{
-                            let item = try docChange.document.data(as: ItemFirebase.self)
-                            
-                            if docChange.type == .added{
-                                self.itemList.append(item)
-                            }
-                        }catch let err as NSError{
-                            print(#function, "Unable to obtain Favourited object \(err)" )
             result.documentChanges.forEach { docChange in
                 do {
                     let favourite = try docChange.document.data(as: RecipeFirebase.self)
@@ -306,10 +280,6 @@ class FireDBHelper : ObservableObject{
                             self?.favouriteList.remove(at: index)
                         }
                     }
-                })
-            
-        }catch let err as NSError{
-            print(#function, "Unable to retrieve \(err)" )
                     
                 } catch let err as NSError {
                     print(#function, "Unable to access document change: \(err)")
