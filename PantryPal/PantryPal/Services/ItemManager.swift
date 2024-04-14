@@ -23,7 +23,7 @@ class ItemManager: ObservableObject {
     }
     
     func byItemIDURL(id: String){
-        var apiString = "https://simple-grocery-store-api.glitch.me/products/\(id)"
+        
     }
     
     func fetchDataFromAPI(){
@@ -105,7 +105,7 @@ class ItemManager: ObservableObject {
     func getItemById(id : String) {
         print("Fetching data from API called")
         
-        byItemIDURL(id: id)
+        self.apiString = "https://simple-grocery-store-api.glitch.me/products/\(id)"
         
         //obtain URL from string
         guard let apiURL = URL(string: self.apiString) else{

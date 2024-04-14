@@ -9,14 +9,24 @@ import SwiftUI
 
 struct ItemDetailsView: View {
     
-    @State var itemID: String
+    @State var itemID: Int
     @EnvironmentObject var dbHelper : FireDBHelper
     @EnvironmentObject var itemManager : ItemManager
     
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(){
+            Text(itemManager.singleItem.name)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .foregroundColor(.blue)
+                .font(.title)
+            
+            
+            
+        }.onAppear{
+        self.itemManager.getItemById(id: String(itemID))
     }
+}
 }
 
 
