@@ -14,6 +14,7 @@ struct PantryView: View {
     
     @EnvironmentObject var recipeManager : RecipeManager
     @EnvironmentObject var dbHelper : FireDBHelper
+    @EnvironmentObject var itemManager : ItemManager
 
     var body: some View {
         TabView(selection: $selection) {
@@ -42,6 +43,7 @@ struct PantryView: View {
                 RecipeView()
                     .environmentObject(recipeManager)
                     .environmentObject(dbHelper)
+                    .environmentObject(itemManager)
 
             }
             .tabItem {

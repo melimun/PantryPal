@@ -16,6 +16,10 @@ struct PantryPalApp: App {
     
     let fireDBHelper : FireDBHelper
     
+    let itemManager = ItemManager()
+    
+        
+    
     init() {
         FirebaseApp.configure()
         fireDBHelper = FireDBHelper.getInstance()
@@ -26,6 +30,7 @@ struct PantryPalApp: App {
             PantryView()
                 .environmentObject(self.recipeManager)
                 .environmentObject(fireDBHelper)
+                .environmentObject(self.itemManager)
         }
     }
 }

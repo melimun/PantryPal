@@ -21,6 +21,7 @@ struct RecipeView: View {
     
     @EnvironmentObject var recipeManager: RecipeManager
     @EnvironmentObject var dbHelper : FireDBHelper
+    @EnvironmentObject var itemManager : ItemManager
 
     
     @State private var selectedArea: Area = .Canadian
@@ -101,7 +102,7 @@ struct RecipeView: View {
                 List {
                     ForEach(self.recipeManager.filteredRecipeList.meals) { recipe in
                         NavigationLink(destination: RecipeDetails(recipeID: recipe.idMeal).environmentObject(self.recipeManager)
-                            .environmentObject(self.dbHelper)
+                            .environmentObject(self.dbHelper).environmentObject(self.itemManager)
                         ) {
                             HStack {
                                 AsyncImage(

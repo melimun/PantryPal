@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct ItemDetailsView: View {
+    
+    @State var itemID: String
+    @EnvironmentObject var dbHelper : FireDBHelper
+    @EnvironmentObject var itemManager : ItemManager
+    
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-#Preview {
-    ItemDetailsView()
-}
+
