@@ -19,6 +19,10 @@
 		45E03F3F2B8D26A800AF53A8 /* RecipeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F3E2B8D26A800AF53A8 /* RecipeManager.swift */; };
 		45E03F432B8D3B8900AF53A8 /* RecipeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F422B8D3B8900AF53A8 /* RecipeDetails.swift */; };
 		45E03F452B8E8C3600AF53A8 /* RecipeFavourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F442B8E8C3600AF53A8 /* RecipeFavourites.swift */; };
+		46624B832BCB451800AF043A /* MLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46624B822BCB451800AF043A /* MLHelper.swift */; };
+		46624B852BCB456B00AF043A /* ingred.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 46624B842BCB456A00AF043A /* ingred.mlmodel */; };
+		466DFD432BCC06BE00DC078B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 466DFD422BCC06BE00DC078B /* FirebaseStorage */; };
+		466DFD472BCC521D00DC078B /* FireStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DFD462BCC521D00DC078B /* FireStorageHelper.swift */; };
 		4C06576A2B78647000F1E048 /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0657692B78647000F1E048 /* PantryView.swift */; };
 		4C06576C2B78696900F1E048 /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C06576B2B78696900F1E048 /* Ingredient.swift */; };
 		4C1FF6DE2B94E43A0008D612 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FF6DD2B94E43A0008D612 /* CameraPicker.swift */; };
@@ -64,6 +68,9 @@
 		45E03F3E2B8D26A800AF53A8 /* RecipeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeManager.swift; sourceTree = "<group>"; };
 		45E03F422B8D3B8900AF53A8 /* RecipeDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetails.swift; sourceTree = "<group>"; };
 		45E03F442B8E8C3600AF53A8 /* RecipeFavourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFavourites.swift; sourceTree = "<group>"; };
+		46624B822BCB451800AF043A /* MLHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLHelper.swift; sourceTree = "<group>"; };
+		46624B842BCB456A00AF043A /* ingred.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ingred.mlmodel; sourceTree = "<group>"; };
+		466DFD462BCC521D00DC078B /* FireStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorageHelper.swift; sourceTree = "<group>"; };
 		4C0657692B78647000F1E048 /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
 		4C06576B2B78696900F1E048 /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		4C1FF6DD2B94E43A0008D612 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
@@ -81,6 +88,7 @@
 			files = (
 				4C4DFCF92BB87066008985AA /* FirebaseFirestore in Frameworks */,
 				4C4DFCFB2BB8706F008985AA /* FirebaseFirestoreSwift in Frameworks */,
+				466DFD432BCC06BE00DC078B /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +133,7 @@
 		45AA70972B72CC590067E513 /* PantryPal */ = {
 			isa = PBXGroup;
 			children = (
+				46624B842BCB456A00AF043A /* ingred.mlmodel */,
 				4C4DFCFC2BB875FF008985AA /* Helpers */,
 				45E03F3B2B8D268100AF53A8 /* Models */,
 				45E03F3A2B8D25BB00AF53A8 /* Services */,
@@ -230,6 +239,8 @@
 			isa = PBXGroup;
 			children = (
 				4C4DFCFD2BB87619008985AA /* FireDBHelper.swift */,
+				46624B822BCB451800AF043A /* MLHelper.swift */,
+				466DFD462BCC521D00DC078B /* FireStorageHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -253,6 +264,7 @@
 			packageProductDependencies = (
 				4C4DFCF82BB87066008985AA /* FirebaseFirestore */,
 				4C4DFCFA2BB8706F008985AA /* FirebaseFirestoreSwift */,
+				466DFD422BCC06BE00DC078B /* FirebaseStorage */,
 			);
 			productName = PantryPal;
 			productReference = 45AA70952B72CC590067E513 /* PantryPal.app */;
@@ -382,10 +394,13 @@
 				45E03F432B8D3B8900AF53A8 /* RecipeDetails.swift in Sources */,
 				4C1FF6E52B95120D0008D612 /* NewGroceryView.swift in Sources */,
 				45E03F3F2B8D26A800AF53A8 /* RecipeManager.swift in Sources */,
+				46624B832BCB451800AF043A /* MLHelper.swift in Sources */,
 				45AA70992B72CC590067E513 /* PantryPalApp.swift in Sources */,
 				4C1FF6DE2B94E43A0008D612 /* CameraPicker.swift in Sources */,
 				4C1FF6E02B94E4560008D612 /* LibraryPicker.swift in Sources */,
+				466DFD472BCC521D00DC078B /* FireStorageHelper.swift in Sources */,
 				45E03F382B8D25A800AF53A8 /* RecipeView.swift in Sources */,
+				46624B852BCB456B00AF043A /* ingred.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,7 +564,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PantryPal/Preview Content\"";
-				DEVELOPMENT_TEAM = Z47J9XGY23;
+				DEVELOPMENT_TEAM = 23MN8SUC83;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "The App needs the camera to iidentify groceries";
@@ -581,7 +596,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PantryPal/Preview Content\"";
-				DEVELOPMENT_TEAM = Z47J9XGY23;
+				DEVELOPMENT_TEAM = 23MN8SUC83;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "The App needs the camera to iidentify groceries";
@@ -734,6 +749,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		466DFD422BCC06BE00DC078B /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C1112F82BB8616A0086F36E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		4C4DFCF82BB87066008985AA /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4C1112F82BB8616A0086F36E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
