@@ -19,6 +19,10 @@
 		45E03F3F2B8D26A800AF53A8 /* RecipeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F3E2B8D26A800AF53A8 /* RecipeManager.swift */; };
 		45E03F432B8D3B8900AF53A8 /* RecipeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F422B8D3B8900AF53A8 /* RecipeDetails.swift */; };
 		45E03F452B8E8C3600AF53A8 /* RecipeFavourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F442B8E8C3600AF53A8 /* RecipeFavourites.swift */; };
+		463BE1712BCEDF0C002313C8 /* ingred.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 463BE1702BCEDF0C002313C8 /* ingred.mlmodel */; };
+		463BE1732BCEE373002313C8 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 463BE1722BCEE373002313C8 /* FirebaseStorage */; };
+		463BE1752BCEE3D4002313C8 /* MLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463BE1742BCEE3D4002313C8 /* MLHelper.swift */; };
+		463BE1772BCEE3E4002313C8 /* FireStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463BE1762BCEE3E4002313C8 /* FireStorageHelper.swift */; };
 		4C06576A2B78647000F1E048 /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0657692B78647000F1E048 /* PantryView.swift */; };
 		4C06576C2B78696900F1E048 /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C06576B2B78696900F1E048 /* Ingredient.swift */; };
 		4C1FF6DE2B94E43A0008D612 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FF6DD2B94E43A0008D612 /* CameraPicker.swift */; };
@@ -74,6 +78,9 @@
 		45E03F3E2B8D26A800AF53A8 /* RecipeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeManager.swift; sourceTree = "<group>"; };
 		45E03F422B8D3B8900AF53A8 /* RecipeDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetails.swift; sourceTree = "<group>"; };
 		45E03F442B8E8C3600AF53A8 /* RecipeFavourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFavourites.swift; sourceTree = "<group>"; };
+		463BE1702BCEDF0C002313C8 /* ingred.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ingred.mlmodel; sourceTree = "<group>"; };
+		463BE1742BCEE3D4002313C8 /* MLHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLHelper.swift; sourceTree = "<group>"; };
+		463BE1762BCEE3E4002313C8 /* FireStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorageHelper.swift; sourceTree = "<group>"; };
 		4C0657692B78647000F1E048 /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
 		4C06576B2B78696900F1E048 /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		4C1FF6DD2B94E43A0008D612 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
@@ -101,6 +108,7 @@
 			files = (
 				AAEACF602BC98BD800035AFC /* FirebaseFirestore in Frameworks */,
 				AAEACF622BC98BD800035AFC /* FirebaseFirestoreSwift in Frameworks */,
+				463BE1732BCEE373002313C8 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +155,7 @@
 		45AA70972B72CC590067E513 /* PantryPal */ = {
 			isa = PBXGroup;
 			children = (
+				463BE1702BCEDF0C002313C8 /* ingred.mlmodel */,
 				4C4DFCFC2BB875FF008985AA /* Helpers */,
 				45E03F3B2B8D268100AF53A8 /* Models */,
 				45E03F3A2B8D25BB00AF53A8 /* Services */,
@@ -257,6 +266,8 @@
 			isa = PBXGroup;
 			children = (
 				4C4DFCFD2BB87619008985AA /* FireDBHelper.swift */,
+				463BE1742BCEE3D4002313C8 /* MLHelper.swift */,
+				463BE1762BCEE3E4002313C8 /* FireStorageHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -299,6 +310,7 @@
 			packageProductDependencies = (
 				AAEACF5F2BC98BD800035AFC /* FirebaseFirestore */,
 				AAEACF612BC98BD800035AFC /* FirebaseFirestoreSwift */,
+				463BE1722BCEE373002313C8 /* FirebaseStorage */,
 			);
 			productName = PantryPal;
 			productReference = 45AA70952B72CC590067E513 /* PantryPal.app */;
@@ -418,6 +430,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				463BE1752BCEE3D4002313C8 /* MLHelper.swift in Sources */,
 				45827ACB2BC8AED400273E69 /* RecipeFirebase.swift in Sources */,
 				4C1FF6E72B95128F0008D612 /* GroceryDetails.swift in Sources */,
 				AAFE19B92BC041FF003B035D /* TempModel.swift in Sources */,
@@ -436,8 +449,10 @@
 				AAFE19BD2BC04841003B035D /* LocationManager.swift in Sources */,
 				AAEACF542BC9687100035AFC /* WalmartMap.swift in Sources */,
 				45E03F3F2B8D26A800AF53A8 /* RecipeManager.swift in Sources */,
+				463BE1712BCEDF0C002313C8 /* ingred.mlmodel in Sources */,
 				45AA70992B72CC590067E513 /* PantryPalApp.swift in Sources */,
 				4C1FF6DE2B94E43A0008D612 /* CameraPicker.swift in Sources */,
+				463BE1772BCEE3E4002313C8 /* FireStorageHelper.swift in Sources */,
 				4C1FF6E02B94E4560008D612 /* LibraryPicker.swift in Sources */,
 				45E03F382B8D25A800AF53A8 /* RecipeView.swift in Sources */,
 				AAC589432BBDA9D80058CE36 /* ItemListView.swift in Sources */,
@@ -790,6 +805,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		463BE1722BCEE373002313C8 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C1112F82BB8616A0086F36E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		AAEACF5F2BC98BD800035AFC /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4C1112F82BB8616A0086F36E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
