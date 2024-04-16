@@ -6,17 +6,31 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
 @main
 struct PantryPalApp: App {
     
     let recipeManager = RecipeManager()
-
+    
+    let fireDBHelper : FireDBHelper
+    
+    let itemManager = ItemManager()
+    
+        
+    
+    init() {
+        FirebaseApp.configure()
+        fireDBHelper = FireDBHelper.getInstance()
+    }
     
     var body: some Scene {
         WindowGroup {
             PantryView()
                 .environmentObject(self.recipeManager)
+                .environmentObject(fireDBHelper)
+                .environmentObject(self.itemManager)
         }
     }
 }
