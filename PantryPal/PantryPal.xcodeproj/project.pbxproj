@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45827ACB2BC8AED400273E69 /* RecipeFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45827ACA2BC8AED400273E69 /* RecipeFirebase.swift */; };
 		45AA70992B72CC590067E513 /* PantryPalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA70982B72CC590067E513 /* PantryPalApp.swift */; };
 		45AA709D2B72CC5B0067E513 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45AA709C2B72CC5B0067E513 /* Assets.xcassets */; };
 		45AA70A02B72CC5B0067E513 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45AA709F2B72CC5B0067E513 /* Preview Assets.xcassets */; };
@@ -19,11 +20,25 @@
 		45E03F432B8D3B8900AF53A8 /* RecipeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F422B8D3B8900AF53A8 /* RecipeDetails.swift */; };
 		45E03F452B8E8C3600AF53A8 /* RecipeFavourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45E03F442B8E8C3600AF53A8 /* RecipeFavourites.swift */; };
 		4C06576A2B78647000F1E048 /* PantryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0657692B78647000F1E048 /* PantryView.swift */; };
-		4C06576C2B78696900F1E048 /* Grocery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C06576B2B78696900F1E048 /* Grocery.swift */; };
+		4C06576C2B78696900F1E048 /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C06576B2B78696900F1E048 /* Ingredient.swift */; };
 		4C1FF6DE2B94E43A0008D612 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FF6DD2B94E43A0008D612 /* CameraPicker.swift */; };
 		4C1FF6E02B94E4560008D612 /* LibraryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FF6DF2B94E4560008D612 /* LibraryPicker.swift */; };
 		4C1FF6E52B95120D0008D612 /* NewGroceryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FF6E42B95120D0008D612 /* NewGroceryView.swift */; };
 		4C1FF6E72B95128F0008D612 /* GroceryDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1FF6E62B95128F0008D612 /* GroceryDetails.swift */; };
+		4C4DFCF62BB86F7D008985AA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4DFCF52BB86F7D008985AA /* GoogleService-Info.plist */; };
+		4C4DFCFE2BB87619008985AA /* FireDBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4DFCFD2BB87619008985AA /* FireDBHelper.swift */; };
+		AAC589432BBDA9D80058CE36 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC589422BBDA9D80058CE36 /* ItemListView.swift */; };
+		AAC589452BBDA9E50058CE36 /* ItemDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC589442BBDA9E50058CE36 /* ItemDetailsView.swift */; };
+		AAC589472BBDA9EF0058CE36 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC589462BBDA9EF0058CE36 /* MapView.swift */; };
+		AAEACF542BC9687100035AFC /* WalmartMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEACF532BC9687100035AFC /* WalmartMap.swift */; };
+		AAEACF562BC968AA00035AFC /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEACF552BC968AA00035AFC /* SheetView.swift */; };
+		AAEACF5A2BC9751E00035AFC /* ItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEACF592BC9751E00035AFC /* ItemManager.swift */; };
+		AAEACF602BC98BD800035AFC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AAEACF5F2BC98BD800035AFC /* FirebaseFirestore */; };
+		AAEACF622BC98BD800035AFC /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AAEACF612BC98BD800035AFC /* FirebaseFirestoreSwift */; };
+		AAFE19B72BC02C29003B035D /* ItemFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFE19B62BC02C29003B035D /* ItemFirebase.swift */; };
+		AAFE19B92BC041FF003B035D /* TempModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFE19B82BC041FF003B035D /* TempModel.swift */; };
+		AAFE19BB2BC0480B003B035D /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFE19BA2BC0480B003B035D /* Location.swift */; };
+		AAFE19BD2BC04841003B035D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFE19BC2BC04841003B035D /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		45827ACA2BC8AED400273E69 /* RecipeFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFirebase.swift; sourceTree = "<group>"; };
 		45AA70952B72CC590067E513 /* PantryPal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PantryPal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45AA70982B72CC590067E513 /* PantryPalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryPalApp.swift; sourceTree = "<group>"; };
 		45AA709C2B72CC5B0067E513 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -59,11 +75,23 @@
 		45E03F422B8D3B8900AF53A8 /* RecipeDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetails.swift; sourceTree = "<group>"; };
 		45E03F442B8E8C3600AF53A8 /* RecipeFavourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeFavourites.swift; sourceTree = "<group>"; };
 		4C0657692B78647000F1E048 /* PantryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryView.swift; sourceTree = "<group>"; };
-		4C06576B2B78696900F1E048 /* Grocery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grocery.swift; sourceTree = "<group>"; };
+		4C06576B2B78696900F1E048 /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		4C1FF6DD2B94E43A0008D612 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
 		4C1FF6DF2B94E4560008D612 /* LibraryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryPicker.swift; sourceTree = "<group>"; };
 		4C1FF6E42B95120D0008D612 /* NewGroceryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroceryView.swift; sourceTree = "<group>"; };
 		4C1FF6E62B95128F0008D612 /* GroceryDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryDetails.swift; sourceTree = "<group>"; };
+		4C4DFCF52BB86F7D008985AA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4C4DFCFD2BB87619008985AA /* FireDBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireDBHelper.swift; sourceTree = "<group>"; };
+		AAC589422BBDA9D80058CE36 /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
+		AAC589442BBDA9E50058CE36 /* ItemDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailsView.swift; sourceTree = "<group>"; };
+		AAC589462BBDA9EF0058CE36 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		AAEACF532BC9687100035AFC /* WalmartMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalmartMap.swift; sourceTree = "<group>"; };
+		AAEACF552BC968AA00035AFC /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
+		AAEACF592BC9751E00035AFC /* ItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemManager.swift; sourceTree = "<group>"; };
+		AAFE19B62BC02C29003B035D /* ItemFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFirebase.swift; sourceTree = "<group>"; };
+		AAFE19B82BC041FF003B035D /* TempModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempModel.swift; sourceTree = "<group>"; };
+		AAFE19BA2BC0480B003B035D /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		AAFE19BC2BC04841003B035D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +99,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAEACF602BC98BD800035AFC /* FirebaseFirestore in Frameworks */,
+				AAEACF622BC98BD800035AFC /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,10 +124,13 @@
 		45AA708C2B72CC590067E513 = {
 			isa = PBXGroup;
 			children = (
+				4C4DFCF52BB86F7D008985AA /* GoogleService-Info.plist */,
 				45AA70972B72CC590067E513 /* PantryPal */,
 				45AA70A82B72CC5C0067E513 /* PantryPalTests */,
 				45AA70B22B72CC5C0067E513 /* PantryPalUITests */,
 				45AA70962B72CC590067E513 /* Products */,
+				4C4DFCF72BB87066008985AA /* Frameworks */,
+				AAEACF582BC974AF00035AFC /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,6 +147,7 @@
 		45AA70972B72CC590067E513 /* PantryPal */ = {
 			isa = PBXGroup;
 			children = (
+				4C4DFCFC2BB875FF008985AA /* Helpers */,
 				45E03F3B2B8D268100AF53A8 /* Models */,
 				45E03F3A2B8D25BB00AF53A8 /* Services */,
 				45E03F392B8D25AD00AF53A8 /* Views */,
@@ -152,6 +186,7 @@
 		45E03F392B8D25AD00AF53A8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AAC589412BBDA9C20058CE36 /* ItemViews */,
 				4C1FF6E32B95118E0008D612 /* GroceryViews */,
 				4C1FF6E22B9511290008D612 /* RecipeViews */,
 			);
@@ -161,7 +196,11 @@
 		45E03F3A2B8D25BB00AF53A8 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				AAFE19B62BC02C29003B035D /* ItemFirebase.swift */,
+				AAFE19BC2BC04841003B035D /* LocationManager.swift */,
 				45E03F3E2B8D26A800AF53A8 /* RecipeManager.swift */,
+				45827ACA2BC8AED400273E69 /* RecipeFirebase.swift */,
+				AAEACF592BC9751E00035AFC /* ItemManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -169,8 +208,10 @@
 		45E03F3B2B8D268100AF53A8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4C06576B2B78696900F1E048 /* Grocery.swift */,
+				4C06576B2B78696900F1E048 /* Ingredient.swift */,
 				45E03F3C2B8D269A00AF53A8 /* Recipe.swift */,
+				AAFE19B82BC041FF003B035D /* TempModel.swift */,
+				AAFE19BA2BC0480B003B035D /* Location.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -205,6 +246,40 @@
 			path = Pickers;
 			sourceTree = "<group>";
 		};
+		4C4DFCF72BB87066008985AA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4C4DFCFC2BB875FF008985AA /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				4C4DFCFD2BB87619008985AA /* FireDBHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		AAC589412BBDA9C20058CE36 /* ItemViews */ = {
+			isa = PBXGroup;
+			children = (
+				AAC589422BBDA9D80058CE36 /* ItemListView.swift */,
+				AAC589442BBDA9E50058CE36 /* ItemDetailsView.swift */,
+				AAC589462BBDA9EF0058CE36 /* MapView.swift */,
+				AAEACF532BC9687100035AFC /* WalmartMap.swift */,
+				AAEACF552BC968AA00035AFC /* SheetView.swift */,
+			);
+			path = ItemViews;
+			sourceTree = "<group>";
+		};
+		AAEACF582BC974AF00035AFC /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -221,6 +296,10 @@
 			dependencies = (
 			);
 			name = PantryPal;
+			packageProductDependencies = (
+				AAEACF5F2BC98BD800035AFC /* FirebaseFirestore */,
+				AAEACF612BC98BD800035AFC /* FirebaseFirestoreSwift */,
+			);
 			productName = PantryPal;
 			productReference = 45AA70952B72CC590067E513 /* PantryPal.app */;
 			productType = "com.apple.product-type.application";
@@ -293,6 +372,9 @@
 				Base,
 			);
 			mainGroup = 45AA708C2B72CC590067E513;
+			packageReferences = (
+				4C1112F82BB8616A0086F36E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 45AA70962B72CC590067E513 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -311,6 +393,7 @@
 			files = (
 				45AA70A02B72CC5B0067E513 /* Preview Assets.xcassets in Resources */,
 				45AA709D2B72CC5B0067E513 /* Assets.xcassets in Resources */,
+				4C4DFCF62BB86F7D008985AA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,18 +418,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45827ACB2BC8AED400273E69 /* RecipeFirebase.swift in Sources */,
 				4C1FF6E72B95128F0008D612 /* GroceryDetails.swift in Sources */,
+				AAFE19B92BC041FF003B035D /* TempModel.swift in Sources */,
+				AAFE19B72BC02C29003B035D /* ItemFirebase.swift in Sources */,
+				AAC589472BBDA9EF0058CE36 /* MapView.swift in Sources */,
+				AAEACF5A2BC9751E00035AFC /* ItemManager.swift in Sources */,
 				4C06576A2B78647000F1E048 /* PantryView.swift in Sources */,
 				45E03F452B8E8C3600AF53A8 /* RecipeFavourites.swift in Sources */,
-				4C06576C2B78696900F1E048 /* Grocery.swift in Sources */,
+				AAC589452BBDA9E50058CE36 /* ItemDetailsView.swift in Sources */,
+				4C06576C2B78696900F1E048 /* Ingredient.swift in Sources */,
+				4C4DFCFE2BB87619008985AA /* FireDBHelper.swift in Sources */,
 				45E03F3D2B8D269A00AF53A8 /* Recipe.swift in Sources */,
 				45E03F432B8D3B8900AF53A8 /* RecipeDetails.swift in Sources */,
 				4C1FF6E52B95120D0008D612 /* NewGroceryView.swift in Sources */,
+				AAFE19BB2BC0480B003B035D /* Location.swift in Sources */,
+				AAFE19BD2BC04841003B035D /* LocationManager.swift in Sources */,
+				AAEACF542BC9687100035AFC /* WalmartMap.swift in Sources */,
 				45E03F3F2B8D26A800AF53A8 /* RecipeManager.swift in Sources */,
 				45AA70992B72CC590067E513 /* PantryPalApp.swift in Sources */,
 				4C1FF6DE2B94E43A0008D612 /* CameraPicker.swift in Sources */,
 				4C1FF6E02B94E4560008D612 /* LibraryPicker.swift in Sources */,
 				45E03F382B8D25A800AF53A8 /* RecipeView.swift in Sources */,
+				AAC589432BBDA9D80058CE36 /* ItemListView.swift in Sources */,
+				AAEACF562BC968AA00035AFC /* SheetView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,6 +777,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4C1112F82BB8616A0086F36E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.23.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AAEACF5F2BC98BD800035AFC /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C1112F82BB8616A0086F36E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		AAEACF612BC98BD800035AFC /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C1112F82BB8616A0086F36E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 45AA708D2B72CC590067E513 /* Project object */;
 }
