@@ -7,14 +7,13 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
 
 class FireDBHelper : ObservableObject{
     
     //Dictionaries
-    @Published var studentList = [Ingredient]()
+    @Published var ingredientList = [Ingredient]()
     @Published var favouriteList = [RecipeFirebase]()
-    
-    @Published var itemList = [ItemFirebase]()
 
     
     private let db : Firestore
@@ -22,12 +21,11 @@ class FireDBHelper : ObservableObject{
     
     // ??
     private let COLLECTION_NAME = "Ingredients"
-    private let ATTRIBUTE_FNAME = "firstname"
-    private let ATTRIBUTE_LNAME = "lastname"
-    private let ATTRIBUTE_COOP = "coop"
-    private let ATTRIBUTE_GPA = "gpa"
-    private let ATTRIBUTE_CCR = "ccr"
-    private let ATTRIBUTE_PROGRAM = "program"
+    private let ATTRIBUTE_INGREDIMAGE = "ingredientImage"
+    private let ATTRIBUTE_INGREDNAME = "ingredientName"
+    private let ATTRIBUTE_PURCHDATE = "purchaseDate"
+    private let ATTRIBUTE_EXPIRDATE = "expirationDate"
+    private let ATTRIBUTE_PRICE = "price"
     
     //For Recipe Collection; Easier for names
     private let COLLECTION_RNAME = "Recipes"
@@ -64,40 +62,35 @@ class FireDBHelper : ObservableObject{
     
     //* I N G R E D I E N T  F U N C T I O N S *//
     
-    func insertIngredient(stud : Ingredient){
-        do{
-            
-            try self.db.collection(COLLECTION_NAME).addDocument(from: stud)
-            
-        }catch let err as NSError{
+    func insertIngredient(ingred : Ingredient){
+        do {
+            try self.db.collection(COLLECTION_NAME).addDocument(from: ingred)
+        } catch let err as NSError {
             print(#function, "Unable to insert : \(err)")
         }
     }
     
-    func deleteIngredient(docIDtoDelete : String){
+    func deleteIngredient(docIDtoDelete : String) {
         self.db
             .collection(COLLECTION_NAME)
             .document(docIDtoDelete)
-            .delete{error in
-                if let err = error{
+            .delete { error in
+                if let err = error {
                     print(#function, "Unable to delete : \(err)")
-                }else{
+                } else {
                     print(#function, "Document deleted successfully")
                 }
             }
     }
     
-    func retrieveAllIngredients(){
-        
-        do{
-            
+    func retrieveAllIngredients() {
+        do {
             self.db
                 .collection(COLLECTION_NAME)
-                .order(by: ATTRIBUTE_GPA, descending: true)
+                .order(by: ATTRIBUTE_PRICE, descending: true)
                 .addSnapshotListener( { (snapshot, error) in
-                    
-                    guard let result = snapshot else{
-                        print(#function, "Unable to retrieve snapshot : \(error)")
+                    guard let result = snapshot else {
+                        print(#function, "Unable to retrieve snapshot : \(String(describing: error))")
                         return
                     }
                     
@@ -105,45 +98,45 @@ class FireDBHelper : ObservableObject{
                     
                     result.documentChanges.forEach{ (docChange) in
                         
-                        do{
+                        do {
                             //obtain the document as Ingredient class object
-                            let stud = try docChange.document.data(as: Ingredient.self)
+                            let ingred = try docChange.document.data(as: Ingredient.self)
                             
-                            print(#function, "stud from db : id : \(stud.id) firstname : \(stud.firstname)")
+                            print(#function, "ingred from db : id : \(String(describing: ingred.id)) ingredientName : \(ingred.ingredientName)")
                             
                             //check if the changed document is already in the list
-                            let matchedIndex = self.studentList.firstIndex(where: { ($0.id?.elementsEqual(stud.id!))!})
+                            let matchedIndex = self.ingredientList.firstIndex(where: { ($0.id?.elementsEqual(ingred.id!))!})
                             
-                            if docChange.type == .added{
-                                
-                                if (matchedIndex != nil){
+                            if docChange.type == .added {
+                                if (matchedIndex != nil) {
                                     //the document object is already in the list
                                     //do nothing to avoid duplicates
-                                }else{
-                                    self.studentList.append(stud)
+                                } else {
+                                    self.ingredientList.append(ingred)
                                 }
                                 
-                                print(#function, "New document added : \(stud)")
+                                print(#function, "New document added : \(ingred)")
                             }
                             
                             if docChange.type == .modified{
-                                print(#function, "Document updated : \(stud)")
-                                
+                                print(#function, "Document updated : \(ingred)")
+                            /*
 //                                if (matchedIndex != nil){
 //                                    //the document object is already in the list
 //                                    //replace existing document
-//                                    self.studentList[matchedIndex!] = stud
+//                                    self.ingredientList[matchedIndex!] = ingred
 //                                }
+                                */
                             }
                             
                             if docChange.type == .removed{
-                                print(#function, "Document deleted : \(stud)")
-                                
+                                print(#function, "Document deleted : \(ingred)")
+                                    /*
 //                                if (matchedIndex != nil){
 //                                    //the document object is still in the list
 //                                    //delete existing document
-//                                    self.studentList.remove(at: matchedIndex!)
-//                                }
+//                                    self.ingredientList.remove(at: matchedIndex!)
+//                                }*/
                             }
                             
                         }catch let err as NSError{
@@ -159,63 +152,43 @@ class FireDBHelper : ObservableObject{
         
     }
     
-    func retrieveIngredientByFirstname(fname : String){
-        do{
-            
-            self.db
-                .collection(COLLECTION_NAME)
-                .whereField("firstname", isGreaterThanOrEqualTo: fname)
-//                .whereField("gpa", isGreaterThan: 3.4 )
-//                .whereField("firstname", in: [fname, "Amy", "James])
-//                .order(by: "gpa", descending: true)
-                .addSnapshotListener( { (snapshot, error) in
-                    
-                    guard let result = snapshot else {
-                        print(#function, "Unable to search database for the firstname due to error  : \(error)")
-                        return
-                    }
-                    
-                    print(#function, "Result of search by first name : \(result)")
-                    
-                    result.documentChanges.forEach{ (docChange) in
-                        //try to convert the firestore document to Ingredient object and update the studentList
-                        do{
-                            let stud = try docChange.document.data(as: Ingredient.self)
-                            
-                            if docChange.type == .added{
-                                self.studentList.append(stud)
+    @Published var retrievedImages = [UIImage]()
+    
+    func retrieveImages() {
+        db.collection("Ingredients").getDocuments { snapshot, error in
+            if error == nil && snapshot != nil {
+                var paths = [String]()
+                for doc in snapshot!.documents {
+                    paths.append(doc["ingredientImage"] as! String)
+                }
+                for path in paths {
+                    let storageRef = Storage.storage().reference()
+                    let fileRef = storageRef.child(path)
+                    fileRef.getData(maxSize: 5 * 1024 * 1024){ data, error in
+                        if error == nil && data != nil {
+                            if let image = UIImage(data: data!) {
+                                DispatchQueue.main.async {
+                                    self.retrievedImages.append(image)
+                                }
                             }
-                        }catch let err as NSError{
-                            print(#function, "Unable to obtain Ingredient object \(err)" )
                         }
                     }
-                })
-            
-        }catch let err as NSError{
-            print(#function, "Unable to retrieve \(err)" )
+
+                }
+            }
         }
     }
     
     func updateIngredient( updatedIngredientIndex : Int ){
         
-//        //setData more apprpropriate if entire document needs to be updated
-//        do{
-//            try self.db
-//                .collection(COLLECTION_NAME)
-//                .document(self.studentList[updatedIngredientIndex].id!)
-//                .setData(from: self.studentList[updatedIngredientIndex])
-//        }catch let err as NSError{
-//            print(#function, "Unable to update \(err)" )
-//        }
-        
         //updateData more apprpropriate if some fields of document needs to be updated
         self.db
             .collection(COLLECTION_NAME)
-            .document(self.studentList[updatedIngredientIndex].id!)
-            .updateData([ATTRIBUTE_FNAME : self.studentList[updatedIngredientIndex].firstname,
-                         ATTRIBUTE_LNAME : self.studentList[updatedIngredientIndex].lastname,
-                         ATTRIBUTE_CCR : self.studentList[updatedIngredientIndex].ccr,
-                         ATTRIBUTE_GPA : self.studentList[updatedIngredientIndex].gpa,
+            .document(self.ingredientList[updatedIngredientIndex].id!)
+            .updateData([ATTRIBUTE_INGREDNAME : self.ingredientList[updatedIngredientIndex].ingredientName,
+                         ATTRIBUTE_PURCHDATE : self.ingredientList[updatedIngredientIndex].purchaseDate,
+                         ATTRIBUTE_EXPIRDATE : self.ingredientList[updatedIngredientIndex].expirationDate,
+                         ATTRIBUTE_PRICE : self.ingredientList[updatedIngredientIndex].price,
                         ]){ error in
                 
                 if let err = error{

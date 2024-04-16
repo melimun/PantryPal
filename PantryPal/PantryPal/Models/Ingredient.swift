@@ -14,68 +14,55 @@ struct Ingredient : Codable, Hashable{
     
     @DocumentID var id : String? = UUID().uuidString
     
-    var firstname : String = ""
-    var lastname : String = ""
-    var program : String = ""
-    var ccr : Int = 0
-    var gpa : Float = 0.0
-    var coop : Bool = false
+    var ingredientImage : String = ""
+    var ingredientName : String = ""
+    var purchaseDate : String = ""
+    var expirationDate : String = ""
+    var price : Float = 0.0
     
     init(){
-        self.firstname = "NA"
-        self.lastname = "NA"
-        self.program = "NA"
-        self.ccr = 0
-        self.gpa = 0.0
-        
-        if (self.gpa > 3.5){
-            self.coop = true
-        }else{
-            self.coop = false
-        }
-        
+        self.ingredientImage = "NA"
+        self.ingredientName = "NA"
+        self.purchaseDate = "NA"
+        self.expirationDate = "NA"
+        self.price = 0.0
     }
     
-    init(firstname: String, lastname: String, program: String, ccr: Int, gpa: Float) {
+    init(ingredientImage: String,  ingredientName: String, purchaseDate: String, expirationDate: String, price: Float) {
         
-        self.firstname = firstname
-        self.lastname = lastname
-        self.program = program
-        self.ccr = ccr
-        self.gpa = gpa
-        
-        if (self.gpa > 3.5){
-            self.coop = true
-        }else{
-            self.coop = false
-        }
+        self.ingredientImage = ingredientImage
+        self.ingredientName = ingredientName
+        self.purchaseDate = purchaseDate
+        self.expirationDate = expirationDate
+        self.price = price
     }
     
     //JSON object to Swift Object
     
 //    //failable initializer
     init?(dictionary: [String: Any]){
-        guard let firstname = dictionary["firstname"] as? String else{
+
+        guard let ingredientImage = dictionary["ingredientImage"] as? String else{
+            return nil
+        }
+
+        guard let ingredientName = dictionary["ingredientName"] as? String else{
             return nil
         }
         
-        guard let lastname = dictionary["lastname"] as? String else{
+        guard let purchaseDate = dictionary["purchaseDate"] as? String else{
             return nil
         }
         
-        guard let program = dictionary["program"] as? String else{
+        guard let expirationDate = dictionary["expirationDate"] as? String else{
             return nil
         }
         
-        guard let gpa = dictionary["gpa"] as? Float else{
+        guard let price = dictionary["price"] as? Float else{
             return nil
         }
         
-        guard let ccr = dictionary["ccr"] as? Int else{
-            return nil
-        }
-        
-        self.init(firstname: firstname, lastname: lastname, program: program, ccr: ccr, gpa: gpa)
+        self.init(ingredientImage: ingredientImage, ingredientName: ingredientName, purchaseDate: purchaseDate, expirationDate: expirationDate, price: price)
         
     }
 }

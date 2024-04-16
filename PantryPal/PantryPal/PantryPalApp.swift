@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import FirebaseFirestore
+import FirebaseStorage
 
 @main
 struct PantryPalApp: App {
@@ -18,11 +19,13 @@ struct PantryPalApp: App {
     
     let itemManager = ItemManager()
     
-        
+    let fireStorageHelper : FireStorageHelper
     
     init() {
         FirebaseApp.configure()
         fireDBHelper = FireDBHelper.getInstance()
+        fireStorageHelper = FireStorageHelper.getInstance()
+
     }
     
     var body: some Scene {
@@ -31,6 +34,7 @@ struct PantryPalApp: App {
                 .environmentObject(self.recipeManager)
                 .environmentObject(fireDBHelper)
                 .environmentObject(self.itemManager)
+                .environmentObject(fireStorageHelper)
         }
     }
 }
